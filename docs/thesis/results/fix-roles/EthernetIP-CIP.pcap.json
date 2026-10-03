@@ -1,0 +1,77 @@
+{
+  "capture": "EthernetIP-CIP.pcap",
+  "engine_commit": "7bd2e35",
+  "packet_count": 10880,
+  "device_count": 5,
+  "finding_count": 0,
+  "devices": [
+    {
+      "ip": "141.81.0.10",
+      "mac": "78:e7:d1:e0:02:5e",
+      "vendor": null,
+      "device_type": "HMI",
+      "role": "client",
+      "purdue_level": "L2",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.23",
+      "mac": "00:00:bc:5f:49:51",
+      "vendor": "Rockwell / Allen-Bradley",
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    },
+    {
+      "ip": "141.81.0.43",
+      "mac": "00:00:bc:5f:48:fa",
+      "vendor": "Rockwell / Allen-Bradley",
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    },
+    {
+      "ip": "141.81.0.63",
+      "mac": "00:00:bc:c7:ce:56",
+      "vendor": "Rockwell / Allen-Bradley",
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    },
+    {
+      "ip": "141.81.0.83",
+      "mac": "00:00:bc:d1:60:da",
+      "vendor": "Rockwell / Allen-Bradley",
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    }
+  ]
+}
