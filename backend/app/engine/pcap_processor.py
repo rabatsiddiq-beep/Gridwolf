@@ -6,6 +6,7 @@ Pipeline: Ingest → Dissect → Topology → Risk
 
 from __future__ import annotations
 
+import ipaddress
 import os
 import logging
 from datetime import datetime, timezone
@@ -47,6 +48,41 @@ PCAPNG_MAGIC = b"\x0a\x0d\x0d\x0a"  # pcapng Section Header Block
 VALID_PCAP_MAGICS = {PCAP_MAGIC_LE, PCAP_MAGIC_BE, PCAP_MAGIC_NS_LE, PCAP_MAGIC_NS_BE}
 
 logger = logging.getLogger(__name__)
+
+# Well-known ICS *server* ports. The endpoint that uses one of these ports is the
+# server (PLC/RTU/controller); the other endpoint is the client (HMI/workstation).
+ICS_SERVER_PORTS = {
+    502: "modbus",
+    102: "s7comm",
+    44818: "enip",
+    2222: "enip",
+    20000: "dnp3",
+    2404: "iec104",
+    47808: "bacnet",
+}
+
+# Device type assigned to a server, by protocol
+SERVER_DEVICE_TYPE = {
+    "modbus": "PLC",
+    "s7comm": "PLC",
+    "enip": "PLC",
+    "dnp3": "RTU",
+    "iec104": "RTU",
+    "bacnet": "SENSOR",
+}
+
+
+def is_device_address(ip: str) -> bool:
+    """True for a unicast host address; False for broadcast, multicast or unspecified."""
+    try:
+        addr = ipaddress.ip_address(ip)
+    except ValueError:
+        return False
+    if addr.is_multicast or addr.is_unspecified:
+        return False
+    if ip == "255.255.255.255" or ip.endswith(".255"):
+        return False
+    return True
 
 
 class PcapProcessor:
@@ -96,6 +132,9 @@ class PcapProcessor:
         self._read_packets(filepath, file_size, is_pcapng)
 
         logger.info(f"Parsed {self.packet_count} packets, {len(self.devices)} devices")
+
+        # Assign roles and device types from everything observed
+        self._finalize_classification()
 
         # Stage 4: Risk assessment
         self._run_risk_assessment()
@@ -181,10 +220,9 @@ class PcapProcessor:
             self.end_time = ts
 
         # Extract MAC addresses for OUI lookup
-        src_mac = dst_mac = None
+        src_mac = None
         if pkt.haslayer(Ether):
             src_mac = pkt[Ether].src
-            dst_mac = pkt[Ether].dst
 
         if not pkt.haslayer(IP):
             return
@@ -192,9 +230,12 @@ class PcapProcessor:
         src_ip = pkt[IP].src
         dst_ip = pkt[IP].dst
 
-        # Stage 3: Update topology (devices)
-        self._update_device(src_ip, src_mac, ts)
-        self._update_device(dst_ip, dst_mac, ts)
+        # Stage 3: Update topology (devices).
+        # Only a host that SENDS traffic is recorded as a device: an address that is
+        # only ever a destination may not exist (e.g. an unanswered SYN or ping).
+        # Broadcast, multicast and unspecified addresses are never devices.
+        if is_device_address(src_ip):
+            self._update_device(src_ip, src_mac, ts)
 
         # Determine transport and ports
         sport = dport = 0
@@ -219,20 +260,31 @@ class PcapProcessor:
         self.protocol_summary[protocol] += 1
 
         # Stage 2: Deep protocol dissection
+        events: list[dict] = []
         if protocol != "other" and payload:
             events = self._dissect_protocol(protocol, src_ip, dst_ip, sport, dport, payload, ts)
             self.protocol_events.extend(events)
 
-        # Update device protocols
+        # Update device protocols (only for hosts already recorded as devices)
         if protocol != "other":
-            if protocol not in self.devices[src_ip].get("protocols", []):
-                self.devices[src_ip].setdefault("protocols", []).append(protocol)
-            if protocol not in self.devices[dst_ip].get("protocols", []):
-                self.devices[dst_ip].setdefault("protocols", []).append(protocol)
+            for ip in (src_ip, dst_ip):
+                dev = self.devices.get(ip)
+                if dev is not None and protocol not in dev["protocols"]:
+                    dev["protocols"].append(protocol)
 
-            # Update device ports
-            if dport and dport not in self.devices[dst_ip].get("open_ports", []):
-                self.devices[dst_ip].setdefault("open_ports", []).append(dport)
+        # Server/client roles: decided from the ICS port, only on packets that carry
+        # application data (so an unanswered SYN does not create a role).
+        if protocol in SERVER_DEVICE_TYPE and payload:
+            server_ip, client_ip, server_port = self._ics_endpoints(
+                sport, dport, src_ip, dst_ip, events
+            )
+            if server_ip:
+                self._record_role(server_ip, protocol, "server")
+                server = self.devices.get(server_ip)
+                if server is not None and server_port not in server["open_ports"]:
+                    server["open_ports"].append(server_port)
+            if client_ip:
+                self._record_role(client_ip, protocol, "client")
 
         # Update connection tracking
         flow_key = f"{src_ip}:{sport}->{dst_ip}:{dport}"
@@ -319,44 +371,65 @@ class PcapProcessor:
         except Exception as e:
             logger.debug(f"Protocol parse error ({protocol}): {e}")
 
-        # Classify devices based on protocol role
-        for event in events:
-            role = event.get("role")
-            if role == "master" or role == "client":
-                self._classify_device(src_ip, protocol, "master")
-            elif role == "slave" or role == "server":
-                self._classify_device(dst_ip, protocol, "slave")
-
         return events
 
-    def _classify_device(self, ip: str, protocol: str, role: str):
-        """Classify device type and Purdue level based on protocol behavior."""
-        dev = self.devices.get(ip, {})
+    @staticmethod
+    def _ics_endpoints(
+        sport: int, dport: int, src_ip: str, dst_ip: str, events: list[dict]
+    ) -> tuple[Optional[str], Optional[str], int]:
+        """Return (server_ip, client_ip, server_port) for one ICS packet.
 
-        if protocol in ("modbus", "s7comm", "enip", "dnp3", "iec104"):
-            if role == "slave":
-                if dev.get("device_type") == "UNKNOWN":
-                    if protocol == "modbus":
-                        dev["device_type"] = "PLC"
-                    elif protocol == "s7comm":
-                        dev["device_type"] = "PLC"
-                    elif protocol == "enip":
-                        dev["device_type"] = "PLC"
-                    elif protocol == "dnp3":
-                        dev["device_type"] = "RTU"
-                    elif protocol == "iec104":
-                        dev["device_type"] = "RTU"
+        The endpoint using the well-known ICS port is the server. When both sides use
+        the same well-known port (e.g. BACnet 47808 <-> 47808), the parsed message
+        direction decides: a sender that answers is the server, a sender that asks is
+        the client. Parser 'role' values describe the SENDER of the packet.
+        """
+        s_srv = sport in ICS_SERVER_PORTS
+        d_srv = dport in ICS_SERVER_PORTS
+        if d_srv and not s_srv:
+            return dst_ip, src_ip, dport
+        if s_srv and not d_srv:
+            return src_ip, dst_ip, sport
+        if s_srv and d_srv:
+            for event in events:
+                role = event.get("role")
+                if role in ("slave", "server"):
+                    return src_ip, dst_ip, sport
+                if role in ("master", "client"):
+                    return dst_ip, src_ip, dport
+        return None, None, 0
+
+    def _record_role(self, ip: str, protocol: str, role: str) -> None:
+        """Remember that a device acted as server or client for a protocol."""
+        dev = self.devices.get(ip)
+        if dev is None:
+            return
+        roles = dev["properties"].setdefault("ics_roles", {})
+        protocols = roles.setdefault(role, [])
+        if protocol not in protocols:
+            protocols.append(protocol)
+
+    def _finalize_classification(self) -> None:
+        """Set role, device type and Purdue level once all packets have been seen."""
+        for dev in self.devices.values():
+            roles = dev["properties"].get("ics_roles", {})
+            served = roles.get("server", [])
+            clients = roles.get("client", [])
+            if served and clients:
+                dev["properties"]["ics_role"] = "both"
+            elif served:
+                dev["properties"]["ics_role"] = "server"
+            elif clients:
+                dev["properties"]["ics_role"] = "client"
+
+            if served:
+                dev["device_type"] = SERVER_DEVICE_TYPE[served[0]]
                 dev["purdue_level"] = "L1"
                 dev["confidence"] = max(dev.get("confidence", 1), 4)
-            elif role == "master":
-                if dev.get("device_type") == "UNKNOWN":
-                    dev["device_type"] = "HMI"
+            elif clients:
+                dev["device_type"] = "WORKSTATION" if clients == ["bacnet"] else "HMI"
                 dev["purdue_level"] = "L2"
                 dev["confidence"] = max(dev.get("confidence", 1), 3)
-
-        elif protocol == "bacnet":
-            dev["device_type"] = "SENSOR" if role == "slave" else "WORKSTATION"
-            dev["purdue_level"] = "L1" if role == "slave" else "L2"
 
     def _analyze_dns(self, src_ip: str, qname: str, ts: datetime):
         """Analyze DNS queries for potential exfiltration."""
