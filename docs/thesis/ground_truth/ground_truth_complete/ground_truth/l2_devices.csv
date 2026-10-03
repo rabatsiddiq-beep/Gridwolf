@@ -1,0 +1,35 @@
+﻿capture,mac,oui_vendor,device_name,product_firmware,arp_claimed_ip,sends_ip_packets,evidence,confidence,notes
+PROFINET-RT.pcap,00:1b:1b:02:e6:1e,Siemens AG,switch1,,,N,"f2, f13",M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:e6:d2,Siemens AG,switch2,,,N,f10,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:9a:c3,Siemens AG,switch3,,,N,"f1, f12",M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:e6:0f,Siemens AG,switch4,,,N,f4,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:e6:78,Siemens AG,switch5,,,N,f11,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:e5:2e,Siemens AG,switch6,,,N,f9,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:e6:5a,Siemens AG,switch7,,,N,f6,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:47:51:84,Siemens AG,swln3,,,N,f7,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:47:51:6b,Siemens AG,swln4,,,N,f8,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:35:84:10,Siemens AG,pn-io,,,N,"f3, f14",M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check); two MACs announce 'pn-io'
+PROFINET-RT.pcap,00:1b:1b:35:84:07,Siemens AG,pn-io,,,N,f5,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check); two MACs announce 'pn-io'
+Plant1.pcap,00:1b:1b:02:e6:1e,Siemens AG,switch1,,141.81.0.190,N,f9059 DCP; f28272 gratuitous ARP,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+Plant1.pcap,00:1b:1b:02:e6:1f,Siemens AG,Switch1,"SCALANCE X212-2 (6GK5 212-2BB00-2AA3), HW 7, FW V4.02",,N,f537 LLDP system description,H,Port MAC of switch1 (adjacent to ...e6:1e) - same physical SCALANCE switch
+Plant1.pcap,00:1b:1b:02:e6:d2,Siemens AG,switch2,,141.81.0.191,N,f36617 DCP; f16841 ARP,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+Plant1.pcap,00:1b:1b:02:9a:c3,Siemens AG,switch3,,141.81.0.192,N,f8037 DCP; f27126 ARP,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+Plant1.pcap,00:1b:1b:02:e6:0f,Siemens AG,switch4,,141.81.0.193,N,f18888 DCP; f38869 ARP,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+Plant1.pcap,00:1b:1b:02:e6:78,Siemens AG,switch5,,141.81.0.122,N,f39352 DCP; f19480 ARP,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+Plant1.pcap,00:1b:1b:02:e5:2e,Siemens AG,switch6,,142.81.0.190,N,f34127 DCP; f14469 ARP,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+Plant1.pcap,00:1b:1b:02:e6:5a,Siemens AG,switch7,,142.81.0.191,N,f31904 DCP; f12399 ARP,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+Plant1.pcap,00:1b:1b:47:51:84,Siemens AG,swln3,,141.81.0.194,N,f32198 DCP; f12860 ARP,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+Plant1.pcap,00:1b:1b:47:51:6b,Siemens AG,swln4,,141.81.0.195,N,f33308 DCP; f13809 ARP,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+Plant1.pcap,00:1b:1b:35:84:10,Siemens AG,pn-io,,141.81.0.146,Y,f14493 DCP; f34155 ARP,H,Same device as IP host 141.81.0.146 (S7 PLC) - already in gt_Plant1
+Plant1.pcap,00:1b:1b:35:84:07,Siemens AG,pn-io,,141.81.0.166,Y,f22455 DCP; f3055 ARP,H,Same device as IP host 141.81.0.166 (S7 PLC) - already in gt_Plant1
+Plant1.pcap,64:ae:0c:34:ab:97,"Cisco Systems, Inc",SW-SR-CORE,Cisco WS-C3750G-24TS-1U (port Gi3/0/23),,N,f23646 CDP; STP,H,"Core switch; second port MAC ...ab:98 (Gi3/0/24, f25995) is the same device"
+Plant1.pcap,64:ae:0c:34:ab:98,"Cisco Systems, Inc",SW-SR-CORE,Cisco WS-C3750G-24TS-1U (port Gi3/0/24),,N,f25995 CDP; DTP,H,Same physical switch as ...ab:97
+Plant1.pcap,00:1b:1b:33:2b:3f,Siemens AG,,,141.81.0.120,N,f11386 ARP,M,ARP-only Siemens device - never sends IP (R1 v1.1)
+Plant1.pcap,00:1b:1b:33:2e:87,Siemens AG,,,141.81.0.121,N,f22040 ARP,M,ARP-only Siemens device (R1 v1.1)
+Plant1.pcap,00:1b:1b:33:28:7e,Siemens AG,,,141.81.0.119,N,f32076 ARP,M,ARP-only Siemens device (R1 v1.1)
+Plant1.pcap,00:1b:1b:32:da:4a,Siemens AG,,,142.81.0.192,N,f16387 ARP,M,ARP-only Siemens device (R1 v1.1)
+Plant1.pcap,00:1c:06:08:85:cd,"Siemens Numerical Control Ltd., Nanjing",,,141.81.0.135,N,f23252 ARP request for 141.81.0.111,M,"ARP-only; OUI Siemens Numerical Control Ltd., Nanjing (CNC) (R1 v1.1)"
+Plant1.pcap,b4:99:ba:b8:f9:da,Hewlett Packard,,,142.81.0.20,N,f39481 ARP; DHCPv6 (f18249),M,ARP-only Windows host (R1 v1.1)
+cip_unclean.pcap,ec:e5:55:ea:39:3b,Hirschmann Automation,MAR-EA392E,"Hirschmann MAR switch, SW L2P-09.0.00",,N,f6438 LLDP; STP from f329,H,Industrial switch
+cip_unclean.pcap,00:17:74:1f:82:52,Elesta GmbH,,,,N,f1616 EtherType 0x88b7 frames to 01:17:74:00:00:00,M,Vendor-specific Layer-2 protocol; device type unknown
+cip_unclean.pcap,00:90:e8:4c:83:db,"Moxa Technologies Corp., Ltd.",,,192.168.0.20,N,"f19248, f39991 ARP requests",M,ARP-only Moxa device (R1 v1.1)
