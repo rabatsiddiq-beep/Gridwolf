@@ -128,20 +128,28 @@ async def match_device_cves(session_id: str, db: AsyncSession = Depends(get_db))
 
     matches = []
     for dev in devices:
-        device_cves = cve_engine.match_device(
-            dev.vendor, dev.model or dev.device_type, dev.firmware_version
-        )
-        if device_cves:
+        # Only real identity evidence is used: the device type (e.g. "HMI") is not a product.
+        corr = cve_engine.correlate(dev.vendor, dev.model, dev.firmware_version)
+        if corr["matches"] or corr["tier"] == "B":
             matches.append(
                 {
                     "device_ip": dev.ip_address,
                     "device_vendor": dev.vendor,
                     "device_type": dev.device_type,
-                    "cves": device_cves,
+                    "tier": corr["tier"],
+                    "nvd_vendor": corr["nvd_vendor"],
+                    "vendor_cve_count": corr["vendor_cve_count"],
+                    "vendor_kev_count": corr["vendor_kev_count"],
+                    "cves": corr["matches"],
                 }
             )
 
-    return {"session_id": session_id, "devices_checked": len(devices), "matches": matches}
+    return {
+        "session_id": session_id,
+        "devices_checked": len(devices),
+        "snapshot": cve_engine.meta.get("built_utc", "none"),
+        "matches": matches,
+    }
 
 
 # ─── Report Generation ──────────────────────────────────
