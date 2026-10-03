@@ -1,0 +1,37 @@
+{
+  "capture": "tia_s300_goOnline.pcapng",
+  "engine_commit": "e0df253",
+  "packet_count": 448,
+  "device_count": 2,
+  "finding_count": 0,
+  "devices": [
+    {
+      "ip": "134.217.61.131",
+      "mac": "00:0c:29:c1:49:92",
+      "vendor": null,
+      "device_type": "HMI",
+      "role": null,
+      "purdue_level": "L2",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        51214
+      ]
+    },
+    {
+      "ip": "134.217.61.211",
+      "mac": "00:0e:8c:d0:f9:cb",
+      "vendor": "Siemens",
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    }
+  ]
+}

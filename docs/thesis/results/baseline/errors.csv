@@ -1,0 +1,131 @@
+capture,ip,error,ground_truth,predicted
+090813_diverse.pcap,10.0.0.255,false_positive,not a device,UNKNOWN
+EthernetIP-CIP.pcap,141.81.0.10,role,client,server
+EthernetIP-CIP.pcap,141.81.0.10,class,HMI/SCADA,PLC
+ModbusTCP.pcap,141.81.0.24,role,server,client
+ModbusTCP.pcap,141.81.0.26,role,server,client
+ModbusTCP.pcap,141.81.0.44,role,server,client
+ModbusTCP.pcap,141.81.0.46,role,server,client
+ModbusTCP.pcap,141.81.0.64,role,server,client
+ModbusTCP.pcap,141.81.0.66,role,server,client
+ModbusTCP.pcap,141.81.0.84,role,server,client
+ModbusTCP.pcap,141.81.0.86,role,server,client
+ModbusTCP.pcap,141.81.0.104,role,server,client
+ModbusTCP.pcap,141.81.0.143,role,server,client
+ModbusTCP.pcap,141.81.0.144,role,server,client
+ModbusTCP.pcap,141.81.0.163,role,server,client
+ModbusTCP.pcap,141.81.0.164,role,server,client
+ModbusTCP.pcap,141.81.0.24,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.26,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.44,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.46,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.64,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.66,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.84,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.86,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.104,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.143,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.144,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.163,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.164,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.14,role,server,none
+Plant1.pcap,141.81.0.24,role,server,client
+Plant1.pcap,141.81.0.26,role,server,client
+Plant1.pcap,141.81.0.31,role,server,none
+Plant1.pcap,141.81.0.44,role,server,client
+Plant1.pcap,141.81.0.46,role,server,client
+Plant1.pcap,141.81.0.51,role,server,none
+Plant1.pcap,141.81.0.64,role,server,client
+Plant1.pcap,141.81.0.66,role,server,client
+Plant1.pcap,141.81.0.71,role,server,none
+Plant1.pcap,141.81.0.84,role,server,client
+Plant1.pcap,141.81.0.86,role,server,client
+Plant1.pcap,141.81.0.91,role,server,none
+Plant1.pcap,141.81.0.104,role,server,client
+Plant1.pcap,141.81.0.111,role,server,none
+Plant1.pcap,141.81.0.130,role,server,none
+Plant1.pcap,141.81.0.143,role,server,client
+Plant1.pcap,141.81.0.144,role,server,client
+Plant1.pcap,141.81.0.146,role,server,none
+Plant1.pcap,141.81.0.151,role,server,none
+Plant1.pcap,141.81.0.163,role,server,client
+Plant1.pcap,141.81.0.164,role,server,client
+Plant1.pcap,141.81.0.166,role,server,none
+Plant1.pcap,141.81.0.236,role,server,none
+Plant1.pcap,141.81.0.237,role,server,none
+Plant1.pcap,141.81.0.255,false_positive,not a device,UNKNOWN
+Plant1.pcap,141.81.0.41,false_positive,not a device,UNKNOWN
+Plant1.pcap,142.81.0.255,false_positive,not a device,UNKNOWN
+Plant1.pcap,142.81.0.26,false_positive,not a device,UNKNOWN
+Plant1.pcap,142.81.0.36,false_positive,not a device,UNKNOWN
+Plant1.pcap,142.81.0.76,false_positive,not a device,UNKNOWN
+Plant1.pcap,224.0.0.22,false_positive,not a device,UNKNOWN
+Plant1.pcap,224.0.0.252,false_positive,not a device,UNKNOWN
+Plant1.pcap,239.255.255.250,false_positive,not a device,UNKNOWN
+Plant1.pcap,141.81.0.11,class,Historian/DB server,PLC
+Plant1.pcap,141.81.0.14,class,PLC,IT/Other
+Plant1.pcap,141.81.0.24,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.26,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.31,class,PLC,IT/Other
+Plant1.pcap,141.81.0.42,class,OT device (vendor protocol),IT/Other
+Plant1.pcap,141.81.0.44,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.46,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.47,class,OT device (vendor protocol),IT/Other
+Plant1.pcap,141.81.0.49,class,OT device (vendor protocol),IT/Other
+Plant1.pcap,141.81.0.50,class,OT device (vendor protocol),IT/Other
+Plant1.pcap,141.81.0.51,class,PLC,IT/Other
+Plant1.pcap,141.81.0.64,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.66,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.71,class,PLC,IT/Other
+Plant1.pcap,141.81.0.84,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.86,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.91,class,PLC,IT/Other
+Plant1.pcap,141.81.0.104,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.111,class,PLC,IT/Other
+Plant1.pcap,141.81.0.130,class,PLC,IT/Other
+Plant1.pcap,141.81.0.143,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.144,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.146,class,PLC,IT/Other
+Plant1.pcap,141.81.0.151,class,PLC,IT/Other
+Plant1.pcap,141.81.0.163,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.164,class,PLC,HMI/SCADA
+Plant1.pcap,141.81.0.166,class,PLC,IT/Other
+Plant1.pcap,141.81.0.181,class,HMI/SCADA,IT/Other
+Plant1.pcap,141.81.0.182,class,HMI/SCADA,IT/Other
+Plant1.pcap,141.81.0.183,class,HMI/SCADA,IT/Other
+Plant1.pcap,141.81.0.184,class,HMI/SCADA,IT/Other
+Plant1.pcap,141.81.0.187,class,HMI/SCADA,IT/Other
+Plant1.pcap,141.81.0.188,class,HMI/SCADA,IT/Other
+Plant1.pcap,141.81.0.236,class,PLC,IT/Other
+Plant1.pcap,141.81.0.237,class,PLC,IT/Other
+bacnet_test.pcap,10.1.1.165,role,server,none
+bacnet_test.pcap,10.1.1.167,role,client,server
+bacnet_test.pcap,10.1.1.165,class,BACnet controller,IT/Other
+bacnet_test.pcap,10.1.1.167,class,Engineering workstation,BACnet controller
+cip_unclean.pcap,192.168.0.30,role,server,client
+cip_unclean.pcap,192.168.0.65,role,client,server
+cip_unclean.pcap,192.168.0.255,false_positive,not a device,UNKNOWN
+cip_unclean.pcap,224.0.0.22,false_positive,not a device,UNKNOWN
+cip_unclean.pcap,224.0.0.251,false_positive,not a device,UNKNOWN
+cip_unclean.pcap,224.0.0.252,false_positive,not a device,UNKNOWN
+cip_unclean.pcap,239.255.255.250,false_positive,not a device,UNKNOWN
+cip_unclean.pcap,255.255.255.255,false_positive,not a device,PLC
+cip_unclean.pcap,192.168.0.30,class,PLC,HMI/SCADA
+cip_unclean.pcap,192.168.0.65,class,Engineering workstation,PLC
+full_exchange.pcap,192.168.60.1,role,client,server
+full_exchange.pcap,192.168.60.130,role,server,none
+full_exchange.pcap,192.168.60.1,class,HMI/SCADA,RTU
+full_exchange.pcap,192.168.60.130,class,RTU,IT/Other
+modbus_test_data_part1.pcap,10.0.0.3,role,server,client
+modbus_test_data_part1.pcap,10.0.0.8,role,server,client
+modbus_test_data_part1.pcap,10.0.0.3,class,PLC,HMI/SCADA
+modbus_test_data_part1.pcap,10.0.0.8,class,PLC,HMI/SCADA
+modbus_test_data_part1.pcap,10.0.0.57,class,Engineering workstation,HMI/SCADA
+s7comm_reading_plc_status.pcap,192.168.1.40,role,server,none
+s7comm_reading_plc_status.pcap,192.168.1.10,class,Engineering workstation,HMI/SCADA
+s7comm_reading_plc_status.pcap,192.168.1.40,class,PLC,IT/Other
+tia_s300_goOnline.pcapng,134.217.61.211,role,server,none
+tia_s300_goOnline.pcapng,134.217.61.131,class,Engineering workstation,HMI/SCADA
+tia_s300_goOnline.pcapng,134.217.61.211,class,PLC,IT/Other
+wincc_s400_production.pcapng,194.250.63.170,role,server,none
+wincc_s400_production.pcapng,194.250.63.170,class,PLC,IT/Other

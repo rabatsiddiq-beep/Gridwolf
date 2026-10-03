@@ -1,0 +1,34 @@
+{
+  "capture": "090813_diverse.pcap",
+  "engine_commit": "e0df253",
+  "packet_count": 173,
+  "device_count": 2,
+  "finding_count": 46,
+  "devices": [
+    {
+      "ip": "10.0.0.10",
+      "mac": "02:00:4c:4f:4f:50",
+      "vendor": null,
+      "device_type": "RTU",
+      "role": null,
+      "purdue_level": "L1",
+      "protocols": [
+        "iec104"
+      ],
+      "open_ports": [
+        1075,
+        2404
+      ]
+    },
+    {
+      "ip": "10.0.0.255",
+      "mac": "ff:ff:ff:ff:ff:ff",
+      "vendor": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    }
+  ]
+}

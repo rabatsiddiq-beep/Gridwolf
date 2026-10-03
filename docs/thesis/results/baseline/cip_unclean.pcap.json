@@ -1,0 +1,123 @@
+{
+  "capture": "cip_unclean.pcap",
+  "engine_commit": "e0df253",
+  "packet_count": 40356,
+  "device_count": 10,
+  "finding_count": 0,
+  "devices": [
+    {
+      "ip": "192.168.0.21",
+      "mac": "20:47:47:87:d4:96",
+      "vendor": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "192.168.0.255",
+      "mac": "ff:ff:ff:ff:ff:ff",
+      "vendor": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "192.168.0.30",
+      "mac": "00:1d:9c:a1:89:a4",
+      "vendor": "Rockwell Automation",
+      "device_type": "HMI",
+      "role": null,
+      "purdue_level": "L2",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    },
+    {
+      "ip": "192.168.0.47",
+      "mac": "74:86:7a:07:28:94",
+      "vendor": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "192.168.0.65",
+      "mac": "74:86:7a:07:28:94",
+      "vendor": null,
+      "device_type": "PLC",
+      "role": null,
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        49840,
+        49864,
+        61696
+      ]
+    },
+    {
+      "ip": "224.0.0.22",
+      "mac": "01:00:5e:00:00:16",
+      "vendor": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "224.0.0.251",
+      "mac": "01:00:5e:00:00:fb",
+      "vendor": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "224.0.0.252",
+      "mac": "01:00:5e:00:00:fc",
+      "vendor": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "239.255.255.250",
+      "mac": "01:00:5e:7f:ff:fa",
+      "vendor": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "255.255.255.255",
+      "mac": "ff:ff:ff:ff:ff:ff",
+      "vendor": null,
+      "device_type": "PLC",
+      "role": null,
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    }
+  ]
+}

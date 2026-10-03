@@ -1,0 +1,37 @@
+{
+  "capture": "full_exchange.pcap",
+  "engine_commit": "e0df253",
+  "packet_count": 22,
+  "device_count": 2,
+  "finding_count": 1,
+  "devices": [
+    {
+      "ip": "192.168.60.1",
+      "mac": "00:50:56:c0:00:08",
+      "vendor": null,
+      "device_type": "RTU",
+      "role": null,
+      "purdue_level": "L1",
+      "protocols": [
+        "dnp3"
+      ],
+      "open_ports": [
+        50567
+      ]
+    },
+    {
+      "ip": "192.168.60.130",
+      "mac": "00:0c:29:24:3a:0a",
+      "vendor": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [
+        "dnp3"
+      ],
+      "open_ports": [
+        20000
+      ]
+    }
+  ]
+}

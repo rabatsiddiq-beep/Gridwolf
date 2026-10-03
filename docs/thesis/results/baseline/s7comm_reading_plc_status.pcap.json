@@ -1,0 +1,38 @@
+{
+  "capture": "s7comm_reading_plc_status.pcap",
+  "engine_commit": "e0df253",
+  "packet_count": 240,
+  "device_count": 2,
+  "finding_count": 0,
+  "devices": [
+    {
+      "ip": "192.168.1.10",
+      "mac": "90:e6:ba:84:5e:41",
+      "vendor": null,
+      "device_type": "HMI",
+      "role": null,
+      "purdue_level": "L2",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102,
+        4305
+      ]
+    },
+    {
+      "ip": "192.168.1.40",
+      "mac": "00:1b:1b:23:eb:3b",
+      "vendor": "Siemens",
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    }
+  ]
+}
