@@ -1,0 +1,5 @@
+capture,ip,packets_sent,observable,mac,mac_shared_by_many_ips,oui_vendor,protocols_seen,ics_ports_served,ics_ports_connected_to,suggested_role,suggested_class,is_device,role,device_class,vendor,product,firmware,confidence,evidence,notes
+cip_unclean.pcap,192.168.0.21,27,Y,20:47:47:87:d4:96,N,Dell Inc.,BROWSER; UDP,,,none-ICS,IT/Other,,,,,,,,,
+cip_unclean.pcap,192.168.0.30,19216,Y,00:1d:9c:a1:89:a4; 74:86:7a:07:28:94,Y (router? vendor unknown),,CIP; CIP CM; CIP PCCC; ENIP; TCP,44818,,server,PLC,,,,,,,,,
+cip_unclean.pcap,192.168.0.47,18,Y,74:86:7a:07:28:94,Y (router? vendor unknown),,ICMP,44818,44818,both,PLC,,,,,,,,,
+cip_unclean.pcap,192.168.0.65,19358,Y,00:26:6c:df:39:5a; 74:86:7a:07:28:94,Y (router? vendor unknown),,BROWSER; CIP CM; CIP PCCC; ENIP; IGMPv3; LLMNR; MDNS; NBNS; SSDP; TCP,,44818,client,HMI/SCADA (check: engineering WS?),,,,,,,,,

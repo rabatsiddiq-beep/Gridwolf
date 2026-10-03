@@ -1,0 +1,5 @@
+capture,ip,packets_sent,observable,mac,mac_shared_by_many_ips,oui_vendor,protocols_seen,ics_ports_served,ics_ports_connected_to,suggested_role,suggested_class,is_device,role,device_class,vendor,product,firmware,confidence,evidence,notes
+modbus_test_data_part1.pcap,10.0.0.3,23,Y,00:02:b3:ce:70:51,N,Intel Corporation,Modbus/TCP; TCP,502,,server,PLC,,,,,,,,,
+modbus_test_data_part1.pcap,10.0.0.8,28,Y,00:50:04:93:70:67,Y (router? vendor unknown),,TCP,502,,server,PLC,,,,,,,,,
+modbus_test_data_part1.pcap,10.0.0.9,16,Y,00:50:04:93:70:67,Y (router? vendor unknown),,Modbus/TCP; TCP,,502,client,HMI/SCADA (check: engineering WS?),,,,,,,,,
+modbus_test_data_part1.pcap,10.0.0.57,51,Y,00:20:78:00:62:0d,N,"Runtop, Inc.",Modbus/TCP; TCP,,502,client,HMI/SCADA (check: engineering WS?),,,,,,,,,

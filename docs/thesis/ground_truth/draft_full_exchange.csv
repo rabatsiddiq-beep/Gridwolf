@@ -1,0 +1,3 @@
+capture,ip,packets_sent,observable,mac,mac_shared_by_many_ips,oui_vendor,protocols_seen,ics_ports_served,ics_ports_connected_to,suggested_role,suggested_class,is_device,role,device_class,vendor,product,firmware,confidence,evidence,notes
+full_exchange.pcap,192.168.60.1,11,Y,00:50:56:c0:00:08,N,"VMware, Inc.",DNP 3.0; TCP,,20000,client,HMI/SCADA (check: engineering WS?),,,,,,,,,
+full_exchange.pcap,192.168.60.130,11,Y,00:0c:29:24:3a:0a,N,"VMware, Inc.",DNP 3.0; TCP,20000,,server,RTU,,,,,,,,,

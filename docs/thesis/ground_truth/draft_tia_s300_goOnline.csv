@@ -1,0 +1,3 @@
+capture,ip,packets_sent,observable,mac,mac_shared_by_many_ips,oui_vendor,protocols_seen,ics_ports_served,ics_ports_connected_to,suggested_role,suggested_class,is_device,role,device_class,vendor,product,firmware,confidence,evidence,notes
+tia_s300_goOnline.pcapng,134.217.61.131,224,Y,00:0c:29:c1:49:92,N,"VMware, Inc.",S7COMM,,102,client,HMI/SCADA (check: engineering WS?),,,,,,,,,
+tia_s300_goOnline.pcapng,134.217.61.211,224,Y,00:0e:8c:d0:f9:cb,N,Siemens AG,S7COMM,102,,server,PLC,,,,,,,,,

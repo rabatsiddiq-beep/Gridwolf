@@ -1,0 +1,12 @@
+﻿capture,mac,oui_vendor,name_of_station,evidence_frames,has_ip,confidence,notes
+PROFINET-RT.pcap,00:1b:1b:02:e6:1e,Siemens AG,switch1,"2, 13",N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:e6:d2,Siemens AG,switch2,10,N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:9a:c3,Siemens AG,switch3,"1, 12",N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:e6:0f,Siemens AG,switch4,4,N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:e6:78,Siemens AG,switch5,11,N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:e5:2e,Siemens AG,switch6,9,N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:02:e6:5a,Siemens AG,switch7,6,N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:47:51:84,Siemens AG,swln3,7,N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:47:51:6b,Siemens AG,swln4,8,N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check)
+PROFINET-RT.pcap,00:1b:1b:35:84:10,Siemens AG,pn-io,"3, 14",N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check); two different MACs announce 'pn-io' (duplicate/default name)
+PROFINET-RT.pcap,00:1b:1b:35:84:07,Siemens AG,pn-io,5,N,M,PN-DCP Ident Req for its own NameOfStation (startup duplicate-name check); two different MACs announce 'pn-io' (duplicate/default name)

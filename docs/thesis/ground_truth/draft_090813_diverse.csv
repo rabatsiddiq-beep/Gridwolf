@@ -1,0 +1,2 @@
+capture,ip,packets_sent,observable,mac,mac_shared_by_many_ips,oui_vendor,protocols_seen,ics_ports_served,ics_ports_connected_to,suggested_role,suggested_class,is_device,role,device_class,vendor,product,firmware,confidence,evidence,notes
+090813_diverse.pcap,10.0.0.10,173,Y,02:00:4c:4f:4f:50,N,,BROWSER; IEC 60870-5 ASDU; IEC 60870-5-104; TCP,2404,2404,both,RTU,,,,,,,,,
