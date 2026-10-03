@@ -1,0 +1,75 @@
+{
+  "built_utc": "2026-10-03T12:15:27Z",
+  "sources": {
+    "nvd": "https://services.nvd.nist.gov/rest/json/cves/2.0",
+    "kev": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+    "kev_catalog_version": "2026.10.02",
+    "epss": "https://api.first.org/data/v1/epss"
+  },
+  "vendors": {
+    "siemens": "Siemens",
+    "rockwellautomation": "Rockwell Automation",
+    "schneider-electric": "Schneider Electric",
+    "johnsoncontrols": "Johnson Controls",
+    "moxa": "Moxa",
+    "sick": "SICK"
+  },
+  "cpe_parts": [
+    "o",
+    "h"
+  ],
+  "queries": [
+    {
+      "virtualMatchString": "cpe:2.3:o:siemens",
+      "totalResults": 813
+    },
+    {
+      "virtualMatchString": "cpe:2.3:h:siemens",
+      "totalResults": 807
+    },
+    {
+      "virtualMatchString": "cpe:2.3:o:rockwellautomation",
+      "totalResults": 122
+    },
+    {
+      "virtualMatchString": "cpe:2.3:h:rockwellautomation",
+      "totalResults": 146
+    },
+    {
+      "virtualMatchString": "cpe:2.3:o:schneider-electric",
+      "totalResults": 360
+    },
+    {
+      "virtualMatchString": "cpe:2.3:h:schneider-electric",
+      "totalResults": 377
+    },
+    {
+      "virtualMatchString": "cpe:2.3:o:johnsoncontrols",
+      "totalResults": 26
+    },
+    {
+      "virtualMatchString": "cpe:2.3:h:johnsoncontrols",
+      "totalResults": 25
+    },
+    {
+      "virtualMatchString": "cpe:2.3:o:moxa",
+      "totalResults": 239
+    },
+    {
+      "virtualMatchString": "cpe:2.3:h:moxa",
+      "totalResults": 239
+    },
+    {
+      "virtualMatchString": "cpe:2.3:o:sick",
+      "totalResults": 74
+    },
+    {
+      "virtualMatchString": "cpe:2.3:h:sick",
+      "totalResults": 74
+    }
+  ],
+  "cve_count": 1679,
+  "kev_count": 26,
+  "epss_count": 1679,
+  "sha256": "ea798476e90c6a31168bc14024b268e959ef180f0a039539b799bf7afe8765c1"
+}

@@ -1,0 +1,13 @@
+Snapshot: 2026-10-03T12:15:27Z - 1679 CVEs
+
+CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0): tier A, vendor CVEs 829, matches 5
+  CVE-2019-13940  CVSS 7.5  KEV False  EPSS 0.01702  simatic_s7-300_cpu_315-2_pn/dp_firmware
+  CVE-2021-40365  CVSS 7.5  KEV False  EPSS 0.00895  siplus_s7-300_cpu_315-2_pn/dp_firmware
+  CVE-2021-44693  CVSS 4.9  KEV False  EPSS 0.00738  siplus_s7-300_cpu_315-2_pn/dp_firmware
+  CVE-2021-44695  CVSS 4.9  KEV False  EPSS 0.00738  siplus_s7-300_cpu_315-2_pn/dp_firmware
+  CVE-2022-30694  CVSS 6.5  KEV False  EPSS 0.00313  6es7315-2eh14-0ab0_firmware
+
+IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0): tier A, vendor CVEs 829, matches 1
+  CVE-2022-30694  CVSS 6.5  KEV False  EPSS 0.00313  6es7151-8ab01-0ab0_firmware
+
+MS-NAE4510-2: tier A, vendor CVEs 28, matches 0
