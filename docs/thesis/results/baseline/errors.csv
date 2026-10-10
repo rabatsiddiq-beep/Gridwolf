@@ -2,6 +2,7 @@ capture,ip,error,ground_truth,predicted
 090813_diverse.pcap,10.0.0.255,false_positive,not a device,UNKNOWN
 EthernetIP-CIP.pcap,141.81.0.10,role,client,server
 EthernetIP-CIP.pcap,141.81.0.10,class,HMI/SCADA,PLC
+EthernetIP-CIP.pcap,141.81.0.10,vendor,Hewlett Packard,
 ModbusTCP.pcap,141.81.0.24,role,server,client
 ModbusTCP.pcap,141.81.0.26,role,server,client
 ModbusTCP.pcap,141.81.0.44,role,server,client
@@ -28,6 +29,20 @@ ModbusTCP.pcap,141.81.0.143,class,PLC,HMI/SCADA
 ModbusTCP.pcap,141.81.0.144,class,PLC,HMI/SCADA
 ModbusTCP.pcap,141.81.0.163,class,PLC,HMI/SCADA
 ModbusTCP.pcap,141.81.0.164,class,PLC,HMI/SCADA
+ModbusTCP.pcap,141.81.0.10,vendor,Hewlett Packard,
+ModbusTCP.pcap,141.81.0.24,vendor,"Taiwan Commate Computer, Inc.",
+ModbusTCP.pcap,141.81.0.26,vendor,Elau Ag,
+ModbusTCP.pcap,141.81.0.44,vendor,"Taiwan Commate Computer, Inc.",
+ModbusTCP.pcap,141.81.0.46,vendor,Elau Ag,
+ModbusTCP.pcap,141.81.0.64,vendor,"Taiwan Commate Computer, Inc.",
+ModbusTCP.pcap,141.81.0.66,vendor,Elau Ag,
+ModbusTCP.pcap,141.81.0.84,vendor,"Taiwan Commate Computer, Inc.",
+ModbusTCP.pcap,141.81.0.86,vendor,Elau Ag,
+ModbusTCP.pcap,141.81.0.104,vendor,"Taiwan Commate Computer, Inc.",
+ModbusTCP.pcap,141.81.0.143,vendor,Elau Ag,
+ModbusTCP.pcap,141.81.0.144,vendor,"Taiwan Commate Computer, Inc.",
+ModbusTCP.pcap,141.81.0.163,vendor,Elau Ag,
+ModbusTCP.pcap,141.81.0.164,vendor,"Taiwan Commate Computer, Inc.",
 Plant1.pcap,141.81.0.14,role,server,none
 Plant1.pcap,141.81.0.24,role,server,client
 Plant1.pcap,141.81.0.26,role,server,client
@@ -98,10 +113,42 @@ Plant1.pcap,141.81.0.187,class,HMI/SCADA,IT/Other
 Plant1.pcap,141.81.0.188,class,HMI/SCADA,IT/Other
 Plant1.pcap,141.81.0.236,class,PLC,IT/Other
 Plant1.pcap,141.81.0.237,class,PLC,IT/Other
+Plant1.pcap,141.81.0.9,vendor,"VMware, Inc. (virtual NIC)",
+Plant1.pcap,141.81.0.10,vendor,Hewlett Packard,
+Plant1.pcap,141.81.0.11,vendor,Hewlett Packard,
+Plant1.pcap,141.81.0.24,vendor,"Taiwan Commate Computer, Inc.",
+Plant1.pcap,141.81.0.26,vendor,Elau Ag,
+Plant1.pcap,141.81.0.42,vendor,Sick AG,
+Plant1.pcap,141.81.0.44,vendor,"Taiwan Commate Computer, Inc.",
+Plant1.pcap,141.81.0.46,vendor,Elau Ag,
+Plant1.pcap,141.81.0.47,vendor,Sick AG,
+Plant1.pcap,141.81.0.49,vendor,Logopak Systeme GmbH & Co. KG,
+Plant1.pcap,141.81.0.50,vendor,Sick AG,
+Plant1.pcap,141.81.0.64,vendor,"Taiwan Commate Computer, Inc.",
+Plant1.pcap,141.81.0.66,vendor,Elau Ag,
+Plant1.pcap,141.81.0.84,vendor,"Taiwan Commate Computer, Inc.",
+Plant1.pcap,141.81.0.86,vendor,Elau Ag,
+Plant1.pcap,141.81.0.104,vendor,"Taiwan Commate Computer, Inc.",
+Plant1.pcap,141.81.0.143,vendor,Elau Ag,
+Plant1.pcap,141.81.0.144,vendor,"Taiwan Commate Computer, Inc.",
+Plant1.pcap,141.81.0.163,vendor,Elau Ag,
+Plant1.pcap,141.81.0.164,vendor,"Taiwan Commate Computer, Inc.",
+Plant1.pcap,141.81.0.181,vendor,congatec GmbH,
+Plant1.pcap,141.81.0.182,vendor,congatec GmbH,
+Plant1.pcap,141.81.0.183,vendor,congatec GmbH,
+Plant1.pcap,141.81.0.184,vendor,congatec GmbH,
+Plant1.pcap,141.81.0.187,vendor,Pegatron Corporation,
+Plant1.pcap,141.81.0.188,vendor,Hewlett Packard,
+Plant1.pcap,142.81.0.10,vendor,Hewlett Packard,
+Plant1.pcap,142.81.0.180,vendor,Hewlett Packard,
 bacnet_test.pcap,10.1.1.165,role,server,none
 bacnet_test.pcap,10.1.1.167,role,client,server
 bacnet_test.pcap,10.1.1.165,class,BACnet controller,IT/Other
 bacnet_test.pcap,10.1.1.167,class,Engineering workstation,BACnet controller
+bacnet_test.pcap,10.1.1.165,vendor,"Johnson Controls (JCI, BACnet vendor-id 5)",
+bacnet_test.pcap,10.1.1.165,product,MS-NAE4510-2,
+bacnet_test.pcap,10.1.1.165,firmware,5.1.0.4400,
+bacnet_test.pcap,10.1.1.167,vendor,Intel Corporate,
 cip_unclean.pcap,192.168.0.30,role,server,client
 cip_unclean.pcap,192.168.0.65,role,client,server
 cip_unclean.pcap,192.168.0.255,false_positive,not a device,UNKNOWN
@@ -112,20 +159,33 @@ cip_unclean.pcap,239.255.255.250,false_positive,not a device,UNKNOWN
 cip_unclean.pcap,255.255.255.255,false_positive,not a device,PLC
 cip_unclean.pcap,192.168.0.30,class,PLC,HMI/SCADA
 cip_unclean.pcap,192.168.0.65,class,Engineering workstation,PLC
+cip_unclean.pcap,192.168.0.21,vendor,Dell Inc.,
+cip_unclean.pcap,192.168.0.47,vendor,Dell Inc.,
+cip_unclean.pcap,192.168.0.65,vendor,Inventec Corporation,
 full_exchange.pcap,192.168.60.1,role,client,server
 full_exchange.pcap,192.168.60.130,role,server,none
 full_exchange.pcap,192.168.60.1,class,HMI/SCADA,RTU
 full_exchange.pcap,192.168.60.130,class,RTU,IT/Other
+full_exchange.pcap,192.168.60.1,vendor,"VMware, Inc. (virtual NIC)",
+full_exchange.pcap,192.168.60.130,vendor,"VMware, Inc. (virtual NIC)",
 modbus_test_data_part1.pcap,10.0.0.3,role,server,client
 modbus_test_data_part1.pcap,10.0.0.8,role,server,client
 modbus_test_data_part1.pcap,10.0.0.3,class,PLC,HMI/SCADA
 modbus_test_data_part1.pcap,10.0.0.8,class,PLC,HMI/SCADA
 modbus_test_data_part1.pcap,10.0.0.57,class,Engineering workstation,HMI/SCADA
+modbus_test_data_part1.pcap,10.0.0.3,vendor,Wingpath Limited (Modbus FC17),
+modbus_test_data_part1.pcap,10.0.0.57,vendor,"Runtop, Inc.",
 s7comm_reading_plc_status.pcap,192.168.1.40,role,server,none
 s7comm_reading_plc_status.pcap,192.168.1.10,class,Engineering workstation,HMI/SCADA
 s7comm_reading_plc_status.pcap,192.168.1.40,class,PLC,IT/Other
+s7comm_reading_plc_status.pcap,192.168.1.10,vendor,ASUSTek COMPUTER INC.,
+s7comm_reading_plc_status.pcap,192.168.1.40,product,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0),
+s7comm_reading_plc_status.pcap,192.168.1.40,firmware,V3.2.6,
 tia_s300_goOnline.pcapng,134.217.61.211,role,server,none
 tia_s300_goOnline.pcapng,134.217.61.131,class,Engineering workstation,HMI/SCADA
 tia_s300_goOnline.pcapng,134.217.61.211,class,PLC,IT/Other
+tia_s300_goOnline.pcapng,134.217.61.131,vendor,"VMware, Inc. (virtual NIC)",
+tia_s300_goOnline.pcapng,134.217.61.211,product,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0),
+tia_s300_goOnline.pcapng,134.217.61.211,firmware,V3.2.7,
 wincc_s400_production.pcapng,194.250.63.170,role,server,none
 wincc_s400_production.pcapng,194.250.63.170,class,PLC,IT/Other

@@ -1,0 +1,40 @@
+{
+  "capture": "bacnet_test.pcap",
+  "engine_commit": "ef418f4",
+  "packet_count": 26,
+  "packet_errors": 0,
+  "device_count": 2,
+  "finding_count": 0,
+  "devices": [
+    {
+      "ip": "10.1.1.165",
+      "mac": "00:19:07:24:3c:ca",
+      "vendor": "JCI",
+      "product": "MS-NAE4510-2",
+      "firmware": "5.1.0.4400",
+      "device_type": "SENSOR",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "bacnet"
+      ],
+      "open_ports": [
+        47808
+      ]
+    },
+    {
+      "ip": "10.1.1.167",
+      "mac": "3c:a9:f4:21:22:f8",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "ENGINEERING_WORKSTATION",
+      "role": "client",
+      "purdue_level": "L2",
+      "protocols": [
+        "bacnet"
+      ],
+      "open_ports": []
+    }
+  ]
+}

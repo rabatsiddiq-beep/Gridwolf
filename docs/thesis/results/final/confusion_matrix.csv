@@ -1,0 +1,9 @@
+reference \ assigned,PLC,RTU,BACnet controller,OT device (vendor protocol),HMI/SCADA,Engineering workstation,Historian/DB server,IT/Other
+PLC,35,0,0,0,0,0,0,0
+RTU,0,1,0,0,0,0,0,0
+BACnet controller,0,0,1,0,0,0,0,0
+OT device (vendor protocol),0,0,0,3,0,0,0,1
+HMI/SCADA,0,0,0,0,10,0,0,0
+Engineering workstation,0,0,0,0,0,5,0,0
+Historian/DB server,0,0,0,0,0,0,0,1
+IT/Other,0,0,0,0,0,0,0,6

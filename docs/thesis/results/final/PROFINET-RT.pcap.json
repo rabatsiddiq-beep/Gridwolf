@@ -1,0 +1,9 @@
+{
+  "capture": "PROFINET-RT.pcap",
+  "engine_commit": "ef418f4",
+  "packet_count": 14,
+  "packet_errors": 0,
+  "device_count": 0,
+  "finding_count": 0,
+  "devices": []
+}
