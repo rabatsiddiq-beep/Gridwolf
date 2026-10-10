@@ -31,7 +31,7 @@ GT = REPO / "docs/thesis/ground_truth/ground_truth_all.csv"
 L2 = REPO / "docs/thesis/ground_truth/l2_devices.csv"
 SUBSETS = {"ModbusTCP.pcap", "EthernetIP-CIP.pcap"}
 
-SERVER_TYPES = {"PLC", "RTU", "SENSOR", "DCS", "RELAY", "METER"}
+SERVER_TYPES = {"PLC", "RTU", "SENSOR", "DCS", "RELAY", "METER", "OT_DEVICE"}
 CLIENT_TYPES = {"HMI", "SCADA_SERVER", "ENGINEERING_WORKSTATION", "WORKSTATION"}
 
 
@@ -45,6 +45,7 @@ CLASS_MAP = {
     "WORKSTATION": "HMI/SCADA",
     "ENGINEERING_WORKSTATION": "Engineering workstation",
     "HISTORIAN": "Historian/DB server",
+    "OT_DEVICE": "OT device (vendor protocol)",
     "UNKNOWN": "IT/Other",
 }
 

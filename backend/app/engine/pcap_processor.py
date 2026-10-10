@@ -38,6 +38,8 @@ from app.engine.protocol_parsers import (
     identify_protocol,
     OUI_VENDORS,
 )
+from app.engine.engineering import engineering_action
+from app.engine.vendor_protocols import VENDOR_DEVICE_TYPE, vendor_endpoints
 from app.engine.identity import (
     S7SzlCollector,
     bacnet_device_identity,
@@ -297,6 +299,22 @@ class PcapProcessor:
             if client_ip:
                 self._record_role(client_ip, protocol, "client")
 
+            # Engineering actions (iteration 2b, rule 2): requests a client sends to
+            # read identity or diagnostics, transfer blocks or change operating mode
+            to_server = dport in ICS_SERVER_PORTS and sport not in ICS_SERVER_PORTS
+            action = engineering_action(protocol, payload, to_server)
+            if action:
+                self._record_once(src_ip, "engineering_actions", action)
+
+        # Documented vendor OT protocols (iteration 2b, rule 3). Kept apart from the
+        # roles of the six evaluated protocols.
+        if transport == "TCP" and payload:
+            vendor = vendor_endpoints(sport, dport, src_ip, dst_ip, payload)
+            if vendor:
+                vprotocol, vserver, vclient = vendor
+                self._record_once(vserver, "vendor_protocol_server", vprotocol)
+                self._record_once(vclient, "vendor_protocol_client", vprotocol)
+
         # Update connection tracking
         flow_key = f"{src_ip}:{sport}->{dst_ip}:{dport}"
         if flow_key not in self.connections:
@@ -474,6 +492,15 @@ class PcapProcessor:
         if protocol not in protocols:
             protocols.append(protocol)
 
+    def _record_once(self, ip: str, key: str, label: str) -> None:
+        """Add a label to a device property list once, with the first packet number."""
+        dev = self.devices.get(ip)
+        if dev is None:
+            return
+        entries = dev["properties"].setdefault(key, [])
+        if len(entries) < 20 and not any(e.startswith(label + " (") for e in entries):
+            entries.append(f"{label} (packet {self.packet_count})")
+
     def _finalize_classification(self) -> None:
         """Set role, device type and Purdue level once all packets have been seen."""
         for dev in self.devices.values():
@@ -487,14 +514,32 @@ class PcapProcessor:
             elif clients:
                 dev["properties"]["ics_role"] = "client"
 
+            props = dev["properties"]
+            vendor_served = [e.split(" (")[0] for e in props.get("vendor_protocol_server", [])]
+            vendor_clients = [e.split(" (")[0] for e in props.get("vendor_protocol_client", [])]
             if served:
                 dev["device_type"] = SERVER_DEVICE_TYPE[served[0]]
                 dev["purdue_level"] = "L1"
+                dev["confidence"] = max(dev.get("confidence", 1), 4)
+            elif props.get("engineering_actions"):
+                # Rule 2: a client that issues engineering functions
+                dev["device_type"] = "ENGINEERING_WORKSTATION"
+                dev["purdue_level"] = "L2"
                 dev["confidence"] = max(dev.get("confidence", 1), 4)
             elif clients:
                 dev["device_type"] = "WORKSTATION" if clients == ["bacnet"] else "HMI"
                 dev["purdue_level"] = "L2"
                 dev["confidence"] = max(dev.get("confidence", 1), 3)
+            elif vendor_served or vendor_clients:
+                # Rule 3: documented vendor OT protocol, only for otherwise untyped hosts
+                if vendor_served:
+                    dtype, _client_type, level = VENDOR_DEVICE_TYPE[vendor_served[0]]
+                else:
+                    _server_type, dtype, level = VENDOR_DEVICE_TYPE[vendor_clients[0]]
+                if dtype:
+                    dev["device_type"] = dtype
+                    dev["purdue_level"] = level
+                    dev["confidence"] = max(dev.get("confidence", 1), 3)
 
     def _analyze_dns(self, src_ip: str, qname: str, ts: datetime):
         """Analyze DNS queries for potential exfiltration."""

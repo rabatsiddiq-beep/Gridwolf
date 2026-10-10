@@ -62,6 +62,7 @@ class DeviceType(str, enum.Enum):
     SERVER = "SERVER"
     WORKSTATION = "WORKSTATION"
     ACCESS_POINT = "ACCESS_POINT"
+    OT_DEVICE = "OT_DEVICE"  # field device identified by a documented vendor protocol
     UNKNOWN = "UNKNOWN"
 
 

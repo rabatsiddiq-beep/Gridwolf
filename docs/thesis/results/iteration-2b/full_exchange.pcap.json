@@ -1,0 +1,39 @@
+{
+  "capture": "full_exchange.pcap",
+  "engine_commit": "fb4d727",
+  "packet_count": 22,
+  "device_count": 2,
+  "finding_count": 1,
+  "devices": [
+    {
+      "ip": "192.168.60.1",
+      "mac": "00:50:56:c0:00:08",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": "client",
+      "purdue_level": "L2",
+      "protocols": [
+        "dnp3"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "192.168.60.130",
+      "mac": "00:0c:29:24:3a:0a",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "RTU",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "dnp3"
+      ],
+      "open_ports": [
+        20000
+      ]
+    }
+  ]
+}

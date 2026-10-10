@@ -1,0 +1,69 @@
+{
+  "capture": "modbus_test_data_part1.pcap",
+  "engine_commit": "fb4d727",
+  "packet_count": 118,
+  "device_count": 4,
+  "finding_count": 6,
+  "devices": [
+    {
+      "ip": "10.0.0.3",
+      "mac": "00:02:b3:ce:70:51",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "10.0.0.57",
+      "mac": "00:20:78:00:62:0d",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "ENGINEERING_WORKSTATION",
+      "role": "client",
+      "purdue_level": "L2",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "10.0.0.8",
+      "mac": "00:50:04:93:70:67",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "10.0.0.9",
+      "mac": "00:50:04:93:70:67",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": "client",
+      "purdue_level": "L2",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": []
+    }
+  ]
+}

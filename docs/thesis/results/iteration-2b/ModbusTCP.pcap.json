@@ -1,0 +1,231 @@
+{
+  "capture": "ModbusTCP.pcap",
+  "engine_commit": "fb4d727",
+  "packet_count": 15387,
+  "device_count": 14,
+  "finding_count": 3447,
+  "devices": [
+    {
+      "ip": "141.81.0.10",
+      "mac": "78:e7:d1:e0:02:5e",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": "client",
+      "purdue_level": "L2",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.104",
+      "mac": "00:03:1d:0b:97:97",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.143",
+      "mac": "00:04:17:02:3c:7f",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.144",
+      "mac": "00:03:1d:0a:dc:18",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.163",
+      "mac": "00:04:17:02:3d:1b",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.164",
+      "mac": "00:03:1d:0a:dc:14",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.24",
+      "mac": "00:03:1d:08:5b:00",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.26",
+      "mac": "00:04:17:02:23:88",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.44",
+      "mac": "00:03:1d:08:4f:e4",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.46",
+      "mac": "00:04:17:02:31:3b",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.64",
+      "mac": "00:03:1d:0a:01:cb",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.66",
+      "mac": "00:04:17:02:36:35",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.84",
+      "mac": "00:03:1d:0b:15:c2",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.86",
+      "mac": "00:04:17:02:58:b7",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    }
+  ]
+}
