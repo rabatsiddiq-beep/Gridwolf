@@ -91,3 +91,31 @@ Expected effect: engineering workstations and SICK devices typed; operator
 
 stations typed as HMI; discovery, roles and identity unchanged.
 
+
+
+\## Rule 4 – Urgency tiers on correlated CVEs (written <today's date>)
+
+Each matched CVE gets the urgency tier of Table 4.3 (first matching rule applies):
+
+\- Act now: KEV-listed; or CVSS >= 9.0 with network (or unstated) attack vector;
+
+&#x20; or EPSS > 0.10
+
+\- Plan patch: CVSS >= 7.0 with a fix available; or CVSS >= 8.0
+
+\- Monitor: CVSS >= 4.0
+
+\- Low risk: everything else
+
+"Fix available" = the matched NVD CPE entry states a first fixed version
+
+(versionEndExcluding). The same code serves the advisory feed and correlation.
+
+A CPE whose version is "-" (not applicable, e.g. hardware) cannot be checked
+
+against firmware, so its version check is "unknown", not "affected".
+
+Ranking within a device is unchanged: KEV, then EPSS, then CVSS.
+
+Source: Table 4.3 (fixed in Week 1); NVD CPE match criteria documentation.
+
