@@ -1,0 +1,39 @@
+{
+  "capture": "s7comm_reading_plc_status.pcap",
+  "engine_commit": "3629244",
+  "packet_count": 240,
+  "device_count": 2,
+  "finding_count": 0,
+  "devices": [
+    {
+      "ip": "192.168.1.10",
+      "mac": "90:e6:ba:84:5e:41",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": "client",
+      "purdue_level": "L2",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "192.168.1.40",
+      "mac": "00:1b:1b:23:eb:3b",
+      "vendor": "Siemens AG",
+      "product": "IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0)",
+      "firmware": "V3.2.6",
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    }
+  ]
+}

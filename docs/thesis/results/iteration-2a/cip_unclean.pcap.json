@@ -1,0 +1,63 @@
+{
+  "capture": "cip_unclean.pcap",
+  "engine_commit": "3629244",
+  "packet_count": 40356,
+  "device_count": 4,
+  "finding_count": 0,
+  "devices": [
+    {
+      "ip": "192.168.0.21",
+      "mac": "20:47:47:87:d4:96",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "192.168.0.30",
+      "mac": "00:1d:9c:a1:89:a4",
+      "vendor": "Rockwell Automation",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    },
+    {
+      "ip": "192.168.0.47",
+      "mac": "74:86:7a:07:28:94",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "192.168.0.65",
+      "mac": "00:26:6c:df:39:5a",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": "client",
+      "purdue_level": "L2",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": []
+    }
+  ]
+}

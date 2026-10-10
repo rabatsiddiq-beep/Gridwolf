@@ -54,9 +54,6 @@ Plant1.pcap,141.81.0.188,vendor,Hewlett Packard,
 Plant1.pcap,142.81.0.10,vendor,Hewlett Packard,
 Plant1.pcap,142.81.0.180,vendor,Hewlett Packard,
 bacnet_test.pcap,10.1.1.167,class,Engineering workstation,HMI/SCADA
-bacnet_test.pcap,10.1.1.165,vendor,"Johnson Controls (JCI, BACnet vendor-id 5)",
-bacnet_test.pcap,10.1.1.165,product,MS-NAE4510-2,
-bacnet_test.pcap,10.1.1.165,firmware,5.1.0.4400,
 bacnet_test.pcap,10.1.1.167,vendor,Intel Corporate,
 cip_unclean.pcap,192.168.0.65,class,Engineering workstation,HMI/SCADA
 cip_unclean.pcap,192.168.0.21,vendor,Dell Inc.,
@@ -69,9 +66,5 @@ modbus_test_data_part1.pcap,10.0.0.3,vendor,Wingpath Limited (Modbus FC17),
 modbus_test_data_part1.pcap,10.0.0.57,vendor,"Runtop, Inc.",
 s7comm_reading_plc_status.pcap,192.168.1.10,class,Engineering workstation,HMI/SCADA
 s7comm_reading_plc_status.pcap,192.168.1.10,vendor,ASUSTek COMPUTER INC.,
-s7comm_reading_plc_status.pcap,192.168.1.40,product,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0),
-s7comm_reading_plc_status.pcap,192.168.1.40,firmware,V3.2.6,
 tia_s300_goOnline.pcapng,134.217.61.131,class,Engineering workstation,HMI/SCADA
 tia_s300_goOnline.pcapng,134.217.61.131,vendor,"VMware, Inc. (virtual NIC)",
-tia_s300_goOnline.pcapng,134.217.61.211,product,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0),
-tia_s300_goOnline.pcapng,134.217.61.211,firmware,V3.2.7,

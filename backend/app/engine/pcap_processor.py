@@ -38,6 +38,13 @@ from app.engine.protocol_parsers import (
     identify_protocol,
     OUI_VENDORS,
 )
+from app.engine.identity import (
+    S7SzlCollector,
+    bacnet_device_identity,
+    bacnet_identity,
+    parse_szl,
+    s7_identity,
+)
 
 # Valid PCAP/PCAPNG magic bytes
 PCAP_MAGIC_LE = b"\xd4\xc3\xb2\xa1"  # pcap little-endian
@@ -97,6 +104,7 @@ class PcapProcessor:
         self.start_time: Optional[datetime] = None
         self.end_time: Optional[datetime] = None
         self.protocol_summary: dict[str, int] = defaultdict(int)
+        self._szl = S7SzlCollector()
 
     def process_file(self, filepath: str) -> dict:
         """Process a PCAP file and return analysis results."""
@@ -135,6 +143,7 @@ class PcapProcessor:
 
         # Assign roles and device types from everything observed
         self._finalize_classification()
+        self._finalize_identity()
 
         # Stage 4: Risk assessment
         self._run_risk_assessment()
@@ -181,6 +190,7 @@ class PcapProcessor:
             self.start_time = None
             self.end_time = None
             self.protocol_summary.clear()
+            self._szl = S7SzlCollector()
 
             try:
                 if reader_factory:
@@ -264,6 +274,7 @@ class PcapProcessor:
         if protocol != "other" and payload:
             events = self._dissect_protocol(protocol, src_ip, dst_ip, sport, dport, payload, ts)
             self.protocol_events.extend(events)
+            self._extract_identity(protocol, src_ip, dst_ip, payload)
 
         # Update device protocols (only for hosts already recorded as devices)
         if protocol != "other":
@@ -325,6 +336,8 @@ class PcapProcessor:
                 "mac_address": mac,
                 "hostname": None,
                 "vendor": vendor,
+                "model": None,
+                "firmware_version": None,
                 "device_type": "UNKNOWN",
                 "purdue_level": "UNKNOWN",
                 "protocols": [],
@@ -342,6 +355,58 @@ class PcapProcessor:
             dev["mac_address"] = mac
             oui = mac[:8].upper().replace(":", "-")
             dev["vendor"] = OUI_VENDORS.get(oui, dev.get("vendor"))
+
+    def _extract_identity(self, protocol: str, src_ip: str, dst_ip: str, payload: bytes):
+        """Record identity a device discloses about itself (iteration 2a, rule 1).
+
+        Only responses are used, and they describe their SENDER: an S7 'Read SZL'
+        response or a BACnet ReadProperty ComplexACK on the Device object.
+        """
+        dev = self.devices.get(src_ip)
+        if dev is None:
+            return
+        found: dict = {}
+        source = ""
+        if protocol == "s7comm":
+            block = self._szl.feed(src_ip, dst_ip, payload)
+            if block:
+                found = parse_szl(block)
+                szl_id = int.from_bytes(block[:2], "big") if len(block) >= 2 else 0
+                source = f"s7comm SZL 0x{szl_id:04X}"
+        elif protocol == "bacnet":
+            prop = bacnet_identity(payload)
+            if prop:
+                found = {prop[0]: prop[1]}
+                source = f"bacnet ReadProperty {prop[0]}"
+        if not found:
+            return
+        ident = dev["properties"].setdefault("identity", {"protocol": protocol, "fields": {}})
+        for key, value in found.items():
+            ident["fields"].setdefault(key, value)
+        evidence = ident.setdefault("evidence", [])
+        if not any(e.startswith(source + " (") for e in evidence):  # first packet per source
+            evidence.append(f"{source} (packet {self.packet_count})")
+
+    def _finalize_identity(self) -> None:
+        """Turn collected identity fields into vendor, model and firmware."""
+        for dev in self.devices.values():
+            ident = dev["properties"].get("identity")
+            if not ident:
+                continue
+            if ident["protocol"] == "s7comm":
+                result = s7_identity(ident["fields"])
+            else:
+                result = bacnet_device_identity(ident["fields"])
+            if result["product"]:
+                dev["model"] = result["product"]
+                dev["confidence"] = max(dev.get("confidence", 1), 5)
+            if result["firmware"]:
+                dev["firmware_version"] = result["firmware"]
+            if result["vendor"]:
+                # Vendor stated by the device itself outranks the MAC OUI (codebook R4/R5)
+                dev["properties"]["oui_vendor"] = dev.get("vendor")
+                dev["vendor"] = result["vendor"]
+                dev["properties"]["vendor_source"] = ident["protocol"]
 
     def _dissect_protocol(
         self,

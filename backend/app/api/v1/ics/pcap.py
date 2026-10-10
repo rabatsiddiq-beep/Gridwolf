@@ -156,6 +156,8 @@ async def _process_pcap_task(pcap_id: str, filepath: str, session_id: str):
                     mac_address=dev_data.get("mac_address"),
                     hostname=dev_data.get("hostname"),
                     vendor=dev_data.get("vendor"),
+                    model=dev_data.get("model"),
+                    firmware_version=dev_data.get("firmware_version"),
                     device_type=dev_data.get("device_type", "UNKNOWN"),
                     purdue_level=dev_data.get("purdue_level", "UNKNOWN"),
                     protocols=dev_data.get("protocols", []),

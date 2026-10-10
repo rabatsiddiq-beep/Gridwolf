@@ -71,6 +71,8 @@ def main() -> None:
                     "ip": d["ip_address"],
                     "mac": d.get("mac_address"),
                     "vendor": d.get("vendor"),
+                    "product": d.get("model"),
+                    "firmware": d.get("firmware_version"),
                     "device_type": d.get("device_type"),
                     "role": (d.get("properties") or {}).get("ics_role"),
                     "purdue_level": d.get("purdue_level"),
