@@ -1,0 +1,44 @@
+(.venv) PS C:\thesisgrid\Gridwolf> python docs\thesis\scripts\run_engine.py --pcaps $P --out docs\thesis\results\iteration-2
+Plant1.pcap                               45 devices  (engine 46db8fd)
+ModbusTCP.pcap                            14 devices  (engine 46db8fd)
+modbus_test_data_part1.pcap                4 devices  (engine 46db8fd)
+tia_s300_goOnline.pcapng                   2 devices  (engine 46db8fd)
+s7comm_reading_plc_status.pcap             2 devices  (engine 46db8fd)
+wincc_s400_production.pcapng               2 devices  (engine 46db8fd)
+EthernetIP-CIP.pcap                        5 devices  (engine 46db8fd)
+cip_unclean.pcap                           4 devices  (engine 46db8fd)
+090813_diverse.pcap                        1 devices  (engine 46db8fd)
+bacnet_test.pcap                           2 devices  (engine 46db8fd)
+full_exchange.pcap                         2 devices  (engine 46db8fd)
+PROFINET-RT.pcap                           0 devices  (engine 46db8fd)
+(.venv) PS C:\thesisgrid\Gridwolf> python docs\thesis\scripts\evaluate.py --results docs\thesis\results\iteration-2
+capture                         gt_dev  predic  TP    FP    FN    precis  recall  F1      l2_on  recall  role_co  role_a  class_c  class_  set          vendor_  product  firmwar  false
+090813_diverse.pcap             1       1       1     0     0     1.000   1.000   1.000   0      1.000   0/0      -       0/0      -       independent  0/0      0/0      0/0      0
+EthernetIP-CIP.pcap             5       5       5     0     0     1.000   1.000   1.000   0      1.000   5/5      1.000   5/5      1.000   subset       4/5      0/0      0/0      0
+ModbusTCP.pcap                  14      14      14    0     0     1.000   1.000   1.000   0      1.000   14/14    1.000   14/14    1.000   subset       0/14     0/0      0/0      0
+PROFINET-RT.pcap                0       0       0     0     0     0.000   0.000   0.000   0      0.000   0/0      -       0/0      -       independent  0/0      0/0      0/0      0
+Plant1.pcap                     45      45      45    0     0     1.000   1.000   1.000   0      1.000   30/30    1.000   43/45    0.956   independent  16/44    0/0      0/0      0
+bacnet_test.pcap                2       2       2     0     0     1.000   1.000   1.000   0      1.000   2/2      1.000   2/2      1.000   independent  1/2      1/1      1/1      0
+cip_unclean.pcap                4       4       4     0     0     1.000   1.000   1.000   0      1.000   2/2      1.000   4/4      1.000   independent  1/4      0/0      0/0      0
+full_exchange.pcap              2       2       2     0     0     1.000   1.000   1.000   0      1.000   2/2      1.000   2/2      1.000   independent  0/2      0/0      0/0      0
+modbus_test_data_part1.pcap     4       4       4     0     0     1.000   1.000   1.000   0      1.000   4/4      1.000   4/4      1.000   independent  0/2      0/0      0/0      0
+s7comm_reading_plc_status.pcap  2       2       2     0     0     1.000   1.000   1.000   0      1.000   2/2      1.000   2/2      1.000   independent  1/2      1/1      1/1      0
+tia_s300_goOnline.pcapng        2       2       2     0     0     1.000   1.000   1.000   0      1.000   2/2      1.000   2/2      1.000   independent  1/2      1/1      1/1      0
+wincc_s400_production.pcapng    2       2       2     0     0     1.000   1.000   1.000   0      1.000   2/2      1.000   2/2      1.000   independent  2/2      0/0      0/0      0
+ALL (independent)               64      64      64    0     0     1.000   1.000   1.000   0      1.000   46/46    1.000   61/63    0.968                22/60    3/3      3/3      0
+
+Written: docs\thesis\results\iteration-2\metrics.csv and docs\thesis\results\iteration-2\errors.csv
+(.venv) PS C:\thesisgrid\Gridwolf> python docs\thesis\scripts\evaluate_correlation.py --results docs\thesis\results\iteration-2
+Snapshot: C:\thesisgrid\Gridwolf\backend\app\vulndata\vuln_snapshot.json.gz
+  built 2026-10-10T08:43:11Z, 1679 CVE records
+  sha256 68441bacb34e6da4cf1319928bfa210c114ef81d4f90456fe9590bac81298c24 OK
+Independent set: 64 devices
+  identity tier: A 3, A- 0, B 19, C 42
+  devices with at least one match: 2
+Matches (tiers A and A-): 6
+  version check: affected 3, unknown 3
+  urgency: act_now 0, plan_patch 0, monitor 6, low_risk 0
+  KEV-listed: 0
+  bacnet_test.pcap 10.1.1.165 MS-NAE4510-2 5.1.0.4400: 0 matches
+  s7comm_reading_plc_status.pcap 192.168.1.40 IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6: 1 matches
+  tia_s300_goOnline.pcapng 134.217.61.211 CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7: 5 matches
