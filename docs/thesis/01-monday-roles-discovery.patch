@@ -1,0 +1,717 @@
+diff --git a/backend/app/engine/pcap_processor.py b/backend/app/engine/pcap_processor.py
+index c7f6361..9b361e6 100644
+--- a/backend/app/engine/pcap_processor.py
++++ b/backend/app/engine/pcap_processor.py
+@@ -6,6 +6,7 @@ Pipeline: Ingest → Dissect → Topology → Risk
+ 
+ from __future__ import annotations
+ 
++import ipaddress
+ import os
+ import logging
+ from datetime import datetime, timezone
+@@ -48,6 +49,41 @@ VALID_PCAP_MAGICS = {PCAP_MAGIC_LE, PCAP_MAGIC_BE, PCAP_MAGIC_NS_LE, PCAP_MAGIC_
+ 
+ logger = logging.getLogger(__name__)
+ 
++# Well-known ICS *server* ports. The endpoint that uses one of these ports is the
++# server (PLC/RTU/controller); the other endpoint is the client (HMI/workstation).
++ICS_SERVER_PORTS = {
++    502: "modbus",
++    102: "s7comm",
++    44818: "enip",
++    2222: "enip",
++    20000: "dnp3",
++    2404: "iec104",
++    47808: "bacnet",
++}
++
++# Device type assigned to a server, by protocol
++SERVER_DEVICE_TYPE = {
++    "modbus": "PLC",
++    "s7comm": "PLC",
++    "enip": "PLC",
++    "dnp3": "RTU",
++    "iec104": "RTU",
++    "bacnet": "SENSOR",
++}
++
++
++def is_device_address(ip: str) -> bool:
++    """True for a unicast host address; False for broadcast, multicast or unspecified."""
++    try:
++        addr = ipaddress.ip_address(ip)
++    except ValueError:
++        return False
++    if addr.is_multicast or addr.is_unspecified:
++        return False
++    if ip == "255.255.255.255" or ip.endswith(".255"):
++        return False
++    return True
++
+ 
+ class PcapProcessor:
+     """Process PCAP files and extract ICS/SCADA network topology."""
+@@ -97,6 +133,9 @@ class PcapProcessor:
+ 
+         logger.info(f"Parsed {self.packet_count} packets, {len(self.devices)} devices")
+ 
++        # Assign roles and device types from everything observed
++        self._finalize_classification()
++
+         # Stage 4: Risk assessment
+         self._run_risk_assessment()
+ 
+@@ -181,10 +220,9 @@ class PcapProcessor:
+             self.end_time = ts
+ 
+         # Extract MAC addresses for OUI lookup
+-        src_mac = dst_mac = None
++        src_mac = None
+         if pkt.haslayer(Ether):
+             src_mac = pkt[Ether].src
+-            dst_mac = pkt[Ether].dst
+ 
+         if not pkt.haslayer(IP):
+             return
+@@ -192,9 +230,12 @@ class PcapProcessor:
+         src_ip = pkt[IP].src
+         dst_ip = pkt[IP].dst
+ 
+-        # Stage 3: Update topology (devices)
+-        self._update_device(src_ip, src_mac, ts)
+-        self._update_device(dst_ip, dst_mac, ts)
++        # Stage 3: Update topology (devices).
++        # Only a host that SENDS traffic is recorded as a device: an address that is
++        # only ever a destination may not exist (e.g. an unanswered SYN or ping).
++        # Broadcast, multicast and unspecified addresses are never devices.
++        if is_device_address(src_ip):
++            self._update_device(src_ip, src_mac, ts)
+ 
+         # Determine transport and ports
+         sport = dport = 0
+@@ -219,20 +260,31 @@ class PcapProcessor:
+         self.protocol_summary[protocol] += 1
+ 
+         # Stage 2: Deep protocol dissection
++        events: list[dict] = []
+         if protocol != "other" and payload:
+             events = self._dissect_protocol(protocol, src_ip, dst_ip, sport, dport, payload, ts)
+             self.protocol_events.extend(events)
+ 
+-        # Update device protocols
++        # Update device protocols (only for hosts already recorded as devices)
+         if protocol != "other":
+-            if protocol not in self.devices[src_ip].get("protocols", []):
+-                self.devices[src_ip].setdefault("protocols", []).append(protocol)
+-            if protocol not in self.devices[dst_ip].get("protocols", []):
+-                self.devices[dst_ip].setdefault("protocols", []).append(protocol)
+-
+-            # Update device ports
+-            if dport and dport not in self.devices[dst_ip].get("open_ports", []):
+-                self.devices[dst_ip].setdefault("open_ports", []).append(dport)
++            for ip in (src_ip, dst_ip):
++                dev = self.devices.get(ip)
++                if dev is not None and protocol not in dev["protocols"]:
++                    dev["protocols"].append(protocol)
++
++        # Server/client roles: decided from the ICS port, only on packets that carry
++        # application data (so an unanswered SYN does not create a role).
++        if protocol in SERVER_DEVICE_TYPE and payload:
++            server_ip, client_ip, server_port = self._ics_endpoints(
++                sport, dport, src_ip, dst_ip, events
++            )
++            if server_ip:
++                self._record_role(server_ip, protocol, "server")
++                server = self.devices.get(server_ip)
++                if server is not None and server_port not in server["open_ports"]:
++                    server["open_ports"].append(server_port)
++            if client_ip:
++                self._record_role(client_ip, protocol, "client")
+ 
+         # Update connection tracking
+         flow_key = f"{src_ip}:{sport}->{dst_ip}:{dport}"
+@@ -319,45 +371,66 @@ class PcapProcessor:
+         except Exception as e:
+             logger.debug(f"Protocol parse error ({protocol}): {e}")
+ 
+-        # Classify devices based on protocol role
+-        for event in events:
+-            role = event.get("role")
+-            if role == "master" or role == "client":
+-                self._classify_device(src_ip, protocol, "master")
+-            elif role == "slave" or role == "server":
+-                self._classify_device(dst_ip, protocol, "slave")
+-
+         return events
+ 
+-    def _classify_device(self, ip: str, protocol: str, role: str):
+-        """Classify device type and Purdue level based on protocol behavior."""
+-        dev = self.devices.get(ip, {})
+-
+-        if protocol in ("modbus", "s7comm", "enip", "dnp3", "iec104"):
+-            if role == "slave":
+-                if dev.get("device_type") == "UNKNOWN":
+-                    if protocol == "modbus":
+-                        dev["device_type"] = "PLC"
+-                    elif protocol == "s7comm":
+-                        dev["device_type"] = "PLC"
+-                    elif protocol == "enip":
+-                        dev["device_type"] = "PLC"
+-                    elif protocol == "dnp3":
+-                        dev["device_type"] = "RTU"
+-                    elif protocol == "iec104":
+-                        dev["device_type"] = "RTU"
++    @staticmethod
++    def _ics_endpoints(
++        sport: int, dport: int, src_ip: str, dst_ip: str, events: list[dict]
++    ) -> tuple[Optional[str], Optional[str], int]:
++        """Return (server_ip, client_ip, server_port) for one ICS packet.
++
++        The endpoint using the well-known ICS port is the server. When both sides use
++        the same well-known port (e.g. BACnet 47808 <-> 47808), the parsed message
++        direction decides: a sender that answers is the server, a sender that asks is
++        the client. Parser 'role' values describe the SENDER of the packet.
++        """
++        s_srv = sport in ICS_SERVER_PORTS
++        d_srv = dport in ICS_SERVER_PORTS
++        if d_srv and not s_srv:
++            return dst_ip, src_ip, dport
++        if s_srv and not d_srv:
++            return src_ip, dst_ip, sport
++        if s_srv and d_srv:
++            for event in events:
++                role = event.get("role")
++                if role in ("slave", "server"):
++                    return src_ip, dst_ip, sport
++                if role in ("master", "client"):
++                    return dst_ip, src_ip, dport
++        return None, None, 0
++
++    def _record_role(self, ip: str, protocol: str, role: str) -> None:
++        """Remember that a device acted as server or client for a protocol."""
++        dev = self.devices.get(ip)
++        if dev is None:
++            return
++        roles = dev["properties"].setdefault("ics_roles", {})
++        protocols = roles.setdefault(role, [])
++        if protocol not in protocols:
++            protocols.append(protocol)
++
++    def _finalize_classification(self) -> None:
++        """Set role, device type and Purdue level once all packets have been seen."""
++        for dev in self.devices.values():
++            roles = dev["properties"].get("ics_roles", {})
++            served = roles.get("server", [])
++            clients = roles.get("client", [])
++            if served and clients:
++                dev["properties"]["ics_role"] = "both"
++            elif served:
++                dev["properties"]["ics_role"] = "server"
++            elif clients:
++                dev["properties"]["ics_role"] = "client"
++
++            if served:
++                dev["device_type"] = SERVER_DEVICE_TYPE[served[0]]
+                 dev["purdue_level"] = "L1"
+                 dev["confidence"] = max(dev.get("confidence", 1), 4)
+-            elif role == "master":
+-                if dev.get("device_type") == "UNKNOWN":
+-                    dev["device_type"] = "HMI"
++            elif clients:
++                dev["device_type"] = "WORKSTATION" if clients == ["bacnet"] else "HMI"
+                 dev["purdue_level"] = "L2"
+                 dev["confidence"] = max(dev.get("confidence", 1), 3)
+ 
+-        elif protocol == "bacnet":
+-            dev["device_type"] = "SENSOR" if role == "slave" else "WORKSTATION"
+-            dev["purdue_level"] = "L1" if role == "slave" else "L2"
+-
+     def _analyze_dns(self, src_ip: str, qname: str, ts: datetime):
+         """Analyze DNS queries for potential exfiltration."""
+         import math
+diff --git a/backend/tests/engine/test_pcap_roles.py b/backend/tests/engine/test_pcap_roles.py
+new file mode 100644
+index 0000000..c6df590
+--- /dev/null
++++ b/backend/tests/engine/test_pcap_roles.py
+@@ -0,0 +1,133 @@
++"""Regression tests for device roles and device discovery in the PCAP processor.
++
++These pin the behaviour fixed for the thesis evaluation:
++  * the endpoint on the well-known ICS port is the server (PLC/RTU), the other is the client
++  * only hosts that send traffic are devices; broadcast/multicast addresses are never devices
++  * an unanswered connection attempt does not give a host a role
++"""
++
++from __future__ import annotations
++
++import pytest
++
++scapy = pytest.importorskip("scapy.all")
++from scapy.all import IP, TCP, UDP, Ether, Raw, wrpcap  # noqa: E402
++
++from app.engine.pcap_processor import PcapProcessor, is_device_address  # noqa: E402
++
++HMI, PLC = "10.0.0.10", "10.0.0.20"
++HMI_MAC, PLC_MAC = "00:0c:29:11:11:11", "00:00:bc:22:22:22"
++
++
++def _run(tmp_path, packets) -> dict:
++    path = tmp_path / "capture.pcap"
++    wrpcap(str(path), packets)
++    result = PcapProcessor().process_file(str(path))
++    return {d["ip_address"]: d for d in result["devices"]}
++
++
++def _modbus_poll(n: int = 3) -> list:
++    pkts = []
++    for i in range(n):
++        req = i.to_bytes(2, "big") + b"\x00\x00\x00\x06\x01\x03\x00\x00\x00\x02"
++        rsp = i.to_bytes(2, "big") + b"\x00\x00\x00\x07\x01\x03\x04\x00\x0a\x00\x0b"
++        pkts.append(
++            Ether(src=HMI_MAC, dst=PLC_MAC)
++            / IP(src=HMI, dst=PLC)
++            / TCP(sport=50000, dport=502, flags="PA")
++            / Raw(req)
++        )
++        pkts.append(
++            Ether(src=PLC_MAC, dst=HMI_MAC)
++            / IP(src=PLC, dst=HMI)
++            / TCP(sport=502, dport=50000, flags="PA")
++            / Raw(rsp)
++        )
++    return pkts
++
++
++def test_modbus_plc_is_server_and_hmi_is_client(tmp_path):
++    devices = _run(tmp_path, _modbus_poll())
++    assert devices[PLC]["device_type"] == "PLC"
++    assert devices[PLC]["properties"]["ics_role"] == "server"
++    assert 502 in devices[PLC]["open_ports"]
++    assert devices[HMI]["device_type"] == "HMI"
++    assert devices[HMI]["properties"]["ics_role"] == "client"
++
++
++def test_s7_plc_is_server(tmp_path):
++    job = b"\x03\x00\x00\x19\x02\xf0\x80\x32\x01\x00\x00\x00\x01\x00\x08\x00\x00\xf0\x00\x00\x01\x00\x01\x01\xe0"
++    ack = b"\x03\x00\x00\x1b\x02\xf0\x80\x32\x03\x00\x00\x00\x01\x00\x08\x00\x00\x00\x00\xf0\x00\x00\x01\x00\x01\x01\xe0"
++    pkts = [
++        IP(src=HMI, dst=PLC) / TCP(sport=50001, dport=102, flags="PA") / Raw(job),
++        IP(src=PLC, dst=HMI) / TCP(sport=102, dport=50001, flags="PA") / Raw(ack),
++    ]
++    devices = _run(tmp_path, pkts)
++    assert devices[PLC]["device_type"] == "PLC"
++    assert devices[PLC]["properties"]["ics_role"] == "server"
++    assert devices[HMI]["properties"]["ics_role"] == "client"
++
++
++def test_unanswered_syn_does_not_change_roles(tmp_path):
++    # PLC tries (and fails) to open a connection to port 102 on the HMI
++    syn = (
++        Ether(src=PLC_MAC, dst=HMI_MAC)
++        / IP(src=PLC, dst=HMI)
++        / TCP(sport=49196, dport=102, flags="S")
++    )
++    devices = _run(tmp_path, [syn] + _modbus_poll())
++    assert devices[PLC]["properties"]["ics_role"] == "server"
++    assert devices[HMI]["properties"]["ics_role"] == "client"
++
++
++def test_receive_only_address_is_not_a_device(tmp_path):
++    ghost = "10.0.0.99"
++    syn = Ether(src=HMI_MAC) / IP(src=HMI, dst=ghost) / TCP(sport=50002, dport=502, flags="S")
++    devices = _run(tmp_path, _modbus_poll() + [syn])
++    assert ghost not in devices
++    assert set(devices) == {HMI, PLC}
++
++
++def test_broadcast_and_multicast_are_not_devices(tmp_path):
++    pkts = _modbus_poll() + [
++        Ether(src=HMI_MAC)
++        / IP(src=HMI, dst="10.0.0.255")
++        / UDP(sport=137, dport=137)
++        / Raw(b"x" * 10),
++        Ether(src=HMI_MAC)
++        / IP(src=HMI, dst="224.0.0.252")
++        / UDP(sport=5355, dport=5355)
++        / Raw(b"x" * 10),
++    ]
++    devices = _run(tmp_path, pkts)
++    assert "10.0.0.255" not in devices
++    assert "224.0.0.252" not in devices
++
++
++def test_bacnet_same_port_uses_message_direction(tmp_path):
++    client, server = "10.1.1.167", "10.1.1.165"
++    bvlc_req = b"\x81\x0a\x00\x11\x01\x04\x02\x05\x01\x0c\x0c\x02\x3f\xff\xff\x19\x4b"
++    bvlc_ack = b"\x81\x0a\x00\x14\x01\x00\x30\x01\x0c\x0c\x02\x3f\xff\xff\x19\x4b\x3e\xc4\x02\x00\x01\xf4\x3f"
++    pkts = [
++        IP(src=client, dst=server) / UDP(sport=47808, dport=47808) / Raw(bvlc_req),
++        IP(src=server, dst=client) / UDP(sport=47808, dport=47808) / Raw(bvlc_ack),
++    ]
++    devices = _run(tmp_path, pkts)
++    assert devices[server]["properties"]["ics_role"] == "server"
++    assert devices[client]["properties"]["ics_role"] == "client"
++
++
++@pytest.mark.parametrize(
++    "ip,expected",
++    [
++        ("10.0.0.5", True),
++        ("10.0.0.255", False),
++        ("255.255.255.255", False),
++        ("224.0.0.22", False),
++        ("239.255.255.250", False),
++        ("0.0.0.0", False),
++        ("not-an-ip", False),
++    ],
++)
++def test_is_device_address(ip, expected):
++    assert is_device_address(ip) is expected
+diff --git a/docs/thesis/scripts/evaluate.py b/docs/thesis/scripts/evaluate.py
+new file mode 100644
+index 0000000..adee4f0
+--- /dev/null
++++ b/docs/thesis/scripts/evaluate.py
+@@ -0,0 +1,238 @@
++"""
++evaluate.py - compare Gridwolf engine output with the verified ground truth.
++
++Metrics (RQ1):
++  * Discovery: precision, recall, F1 of observable devices (codebook R1)
++  * Recall incl. Layer-2: recall when devices that send no IP packets
++    (l2_devices.csv) are also counted as devices that should be found
++  * Role: accuracy of server/client role for devices whose ground-truth role is
++    server or client (codebook R2; 'both' and 'none-ICS' are not scored)
++  * Class: accuracy of device class (codebook R3), after mapping Gridwolf device
++    types to codebook classes (CLASS_MAP); single-host simulators are not scored
++
++Aggregates use only the independent captures (codebook R8: the Plant1 subsets
++ModbusTCP.pcap and EthernetIP-CIP.pcap are reported but not pooled).
++
++Usage:
++    python docs/thesis/scripts/evaluate.py --results docs/thesis/results/<label>
++"""
++
++import argparse
++import csv
++import json
++from pathlib import Path
++
++REPO = Path(__file__).resolve().parents[3]
++GT = REPO / "docs/thesis/ground_truth/ground_truth_all.csv"
++L2 = REPO / "docs/thesis/ground_truth/l2_devices.csv"
++SUBSETS = {"ModbusTCP.pcap", "EthernetIP-CIP.pcap"}
++
++SERVER_TYPES = {"PLC", "RTU", "SENSOR", "DCS", "RELAY", "METER"}
++CLIENT_TYPES = {"HMI", "SCADA_SERVER", "ENGINEERING_WORKSTATION", "WORKSTATION"}
++
++
++# Gridwolf device_type -> codebook R3 class
++CLASS_MAP = {
++    "PLC": "PLC",
++    "RTU": "RTU",
++    "SENSOR": "BACnet controller",
++    "HMI": "HMI/SCADA",
++    "SCADA_SERVER": "HMI/SCADA",
++    "WORKSTATION": "HMI/SCADA",
++    "ENGINEERING_WORKSTATION": "Engineering workstation",
++    "HISTORIAN": "Historian/DB server",
++    "UNKNOWN": "IT/Other",
++}
++
++
++def l2_counts() -> dict:
++    """Distinct devices per capture that send no IP packets (l2_devices.csv)."""
++    counts: dict = {}
++    if not L2.exists():
++        return counts
++    for r in csv.DictReader(open(L2, encoding="utf-8-sig")):
++        if r["sends_ip_packets"] != "N":
++            continue
++        if r["notes"].startswith(
++            ("Port MAC", "Same physical")
++        ):  # second port of a switch
++            continue
++        counts[r["capture"]] = counts.get(r["capture"], 0) + 1
++    return counts
++
++
++def predicted_role(dev: dict) -> str:
++    """Use the engine's explicit role if it reports one, else derive it from device_type."""
++    if dev.get("role"):
++        return dev["role"]
++    t = dev.get("device_type") or "UNKNOWN"
++    if t in SERVER_TYPES:
++        return "server"
++    if t in CLIENT_TYPES:
++        return "client"
++    return "none"
++
++
++def prf(tp: int, fp: int, fn: int):
++    p = tp / (tp + fp) if tp + fp else 0.0
++    r = tp / (tp + fn) if tp + fn else 0.0
++    f = 2 * p * r / (p + r) if p + r else 0.0
++    return p, r, f
++
++
++def main() -> None:
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--results", required=True)
++    args = ap.parse_args()
++    res_dir = Path(args.results)
++
++    gt = list(csv.DictReader(open(GT, encoding="utf-8-sig")))
++    captures = sorted({r["capture"] for r in gt} | {"PROFINET-RT.pcap"})
++
++    l2 = l2_counts()
++    rows, details = [], []
++    agg = dict(tp=0, fp=0, fn=0, l2=0, role_ok=0, role_n=0, cls_ok=0, cls_n=0)
++    for cap in captures:
++        f = res_dir / f"{cap}.json"
++        if not f.exists():
++            print(f"missing result for {cap}")
++            continue
++        pred = {
++            d["ip"]: d for d in json.loads(f.read_text(encoding="utf-8"))["devices"]
++        }
++        g = [r for r in gt if r["capture"] == cap]
++        truth = {r["ip"] for r in g if r["is_device"] == "Y"}
++        tp = len(truth & pred.keys())
++        fp_ips = sorted(pred.keys() - truth)
++        fn_ips = sorted(truth - pred.keys())
++        p, r_, f1 = prf(tp, len(fp_ips), len(fn_ips))
++
++        role_rows = [
++            r for r in g if r["is_device"] == "Y" and r["role"] in ("server", "client")
++        ]
++        role_ok = 0
++        for r in role_rows:
++            pr = predicted_role(pred[r["ip"]]) if r["ip"] in pred else "missed"
++            ok = pr == r["role"]
++            role_ok += ok
++            if not ok:
++                details.append([cap, r["ip"], "role", r["role"], pr])
++        for ip in fp_ips:
++            details.append(
++                [cap, ip, "false_positive", "not a device", pred[ip].get("device_type")]
++            )
++        for ip in fn_ips:
++            details.append([cap, ip, "missed", "device", "-"])
++
++        cls_rows = [
++            r
++            for r in g
++            if r["is_device"] == "Y" and r["device_class"] != "Simulator (single host)"
++        ]
++        cls_ok = 0
++        for r in cls_rows:
++            pc = (
++                CLASS_MAP.get(pred[r["ip"]].get("device_type") or "UNKNOWN", "IT/Other")
++                if r["ip"] in pred
++                else "missed"
++            )
++            ok = pc == r["device_class"]
++            cls_ok += ok
++            if not ok:
++                details.append([cap, r["ip"], "class", r["device_class"], pc])
++
++        n_l2 = l2.get(cap, 0)
++        r_l2 = tp / (len(truth) + n_l2) if len(truth) + n_l2 else 0.0
++        acc = role_ok / len(role_rows) if role_rows else None
++        cacc = cls_ok / len(cls_rows) if cls_rows else None
++        rows.append(
++            [
++                cap,
++                len(truth),
++                len(pred),
++                tp,
++                len(fp_ips),
++                len(fn_ips),
++                f"{p:.3f}",
++                f"{r_:.3f}",
++                f"{f1:.3f}",
++                n_l2,
++                f"{r_l2:.3f}",
++                f"{role_ok}/{len(role_rows)}",
++                f"{acc:.3f}" if acc is not None else "-",
++                f"{cls_ok}/{len(cls_rows)}",
++                f"{cacc:.3f}" if cacc is not None else "-",
++                "subset" if cap in SUBSETS else "independent",
++            ]
++        )
++        if cap not in SUBSETS:
++            agg["tp"] += tp
++            agg["fp"] += len(fp_ips)
++            agg["fn"] += len(fn_ips)
++            agg["l2"] += n_l2
++            agg["role_ok"] += role_ok
++            agg["role_n"] += len(role_rows)
++            agg["cls_ok"] += cls_ok
++            agg["cls_n"] += len(cls_rows)
++
++    p, r_, f1 = prf(agg["tp"], agg["fp"], agg["fn"])
++    r_l2 = agg["tp"] / (agg["tp"] + agg["fn"] + agg["l2"])
++    acc = agg["role_ok"] / agg["role_n"] if agg["role_n"] else 0.0
++    cacc = agg["cls_ok"] / agg["cls_n"] if agg["cls_n"] else 0.0
++    rows.append(
++        [
++            "ALL (independent)",
++            agg["tp"] + agg["fn"],
++            agg["tp"] + agg["fp"],
++            agg["tp"],
++            agg["fp"],
++            agg["fn"],
++            f"{p:.3f}",
++            f"{r_:.3f}",
++            f"{f1:.3f}",
++            agg["l2"],
++            f"{r_l2:.3f}",
++            f"{agg['role_ok']}/{agg['role_n']}",
++            f"{acc:.3f}",
++            f"{agg['cls_ok']}/{agg['cls_n']}",
++            f"{cacc:.3f}",
++            "",
++        ]
++    )
++
++    header = [
++        "capture",
++        "gt_devices",
++        "predicted",
++        "TP",
++        "FP",
++        "FN",
++        "precision",
++        "recall",
++        "F1",
++        "l2_only",
++        "recall_incl_l2",
++        "role_correct",
++        "role_accuracy",
++        "class_correct",
++        "class_accuracy",
++        "set",
++    ]
++    with open(res_dir / "metrics.csv", "w", newline="", encoding="utf-8") as fh:
++        w = csv.writer(fh)
++        w.writerow(header)
++        w.writerows(rows)
++    with open(res_dir / "errors.csv", "w", newline="", encoding="utf-8") as fh:
++        w = csv.writer(fh)
++        w.writerow(["capture", "ip", "error", "ground_truth", "predicted"])
++        w.writerows(details)
++
++    widths = [30, 6, 6, 4, 4, 4, 6, 6, 6, 5, 6, 7, 6, 7, 6]
++    print("  ".join(h[:w].ljust(w) for h, w in zip(header, widths)))
++    for row in rows:
++        print("  ".join(str(c)[:w].ljust(w) for c, w in zip(row, widths)))
++    print(f"\nWritten: {res_dir / 'metrics.csv'} and {res_dir / 'errors.csv'}")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/docs/thesis/scripts/run_engine.py b/docs/thesis/scripts/run_engine.py
+new file mode 100644
+index 0000000..98c6532
+--- /dev/null
++++ b/docs/thesis/scripts/run_engine.py
+@@ -0,0 +1,96 @@
++"""
++run_engine.py - run the Gridwolf analysis engine headlessly on the thesis captures.
++
++No UI, no database: the PCAP processor is called directly, so the same input always
++gives the same output. One JSON file per capture is written to --out.
++
++Usage (from the repo root, with the backend virtual environment active):
++    python docs/thesis/scripts/run_engine.py --pcaps <ITI pcaps folder> --out docs/thesis/results/<label>
++"""
++
++import argparse
++import json
++import logging
++import subprocess
++import sys
++from pathlib import Path
++
++REPO = Path(__file__).resolve().parents[3]
++sys.path.insert(0, str(REPO / "backend"))
++
++from app.engine.pcap_processor import PcapProcessor  # noqa: E402
++
++# Same 12 captures as docs/thesis/datasets.csv (relative to the ITI pcaps folder)
++CAPTURES = [
++    "Combined/Plant1.pcap",
++    "ModbusTCP/ModbusTCP.pcap",
++    "ModbusTCP/modbus_test_data_part1.pcap",
++    "s7/tia_s300_goOnline.pcapng",
++    "s7/s7comm_reading_plc_status.pcap",
++    "s7/wincc_s400_production.pcapng",
++    "EthernetIP/EthernetIP-CIP.pcap",
++    "CIP/cip_unclean.pcap",
++    "IEC60870-5-104/090813_diverse.pcap",
++    "BACnet/bacnet_test.pcap",
++    "dnp3/full_exchange.pcap",
++    "profinet/PROFINET-RT-DCP/PROFINET-RT.pcap",
++]
++
++
++def git_commit() -> str:
++    try:
++        return subprocess.run(
++            ["git", "rev-parse", "--short", "HEAD"],
++            cwd=REPO,
++            capture_output=True,
++            text=True,
++        ).stdout.strip()
++    except OSError:
++        return "unknown"
++
++
++def main() -> None:
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--pcaps", required=True, help="ITI pcaps folder")
++    ap.add_argument("--out", required=True, help="output folder for JSON results")
++    args = ap.parse_args()
++
++    logging.basicConfig(level=logging.ERROR)
++    logging.getLogger("scapy").setLevel(logging.ERROR)
++    out = Path(args.out)
++    out.mkdir(parents=True, exist_ok=True)
++    commit = git_commit()
++
++    for rel in CAPTURES:
++        path = Path(args.pcaps) / rel
++        res = PcapProcessor().process_file(str(path))
++        devices = []
++        for d in sorted(res["devices"], key=lambda x: x["ip_address"]):
++            devices.append(
++                {
++                    "ip": d["ip_address"],
++                    "mac": d.get("mac_address"),
++                    "vendor": d.get("vendor"),
++                    "device_type": d.get("device_type"),
++                    "role": (d.get("properties") or {}).get("ics_role"),
++                    "purdue_level": d.get("purdue_level"),
++                    "protocols": d.get("protocols", []),
++                    "open_ports": sorted(d.get("open_ports", [])),
++                }
++            )
++        record = {
++            "capture": path.name,
++            "engine_commit": commit,
++            "packet_count": res["packet_count"],
++            "device_count": len(devices),
++            "finding_count": len(res["findings"]),
++            "devices": devices,
++        }
++        (out / f"{path.name}.json").write_text(
++            json.dumps(record, indent=2), encoding="utf-8"
++        )
++        print(f"{path.name:40s} {len(devices):3d} devices  (engine {commit})")
++
++
++if __name__ == "__main__":
++    main()
