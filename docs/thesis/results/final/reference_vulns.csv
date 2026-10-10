@@ -1,0 +1,52 @@
+capture,ip,product_firmware,cve_id,advisory_id,vendor_affected_versions,basis
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2015-2177,SSA-987029,all versions,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2016-3949,SSA-818183,< V3.2.12,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2016-8672,SSA-603476,< V3.X.18,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2016-8673,SSA-603476,< V3.X.18,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2016-9158,SSA-731239,all versions (fix V3.X.14),family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2016-9159,SSA-731239,all versions,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2017-2680,SSA-293562,< V3.X.14,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2017-2681,SSA-293562,< V3.X.14,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2017-12741,SSA-346262,< V3.X.16,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2018-4843,SSA-592007,< V3.2.16,named
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2018-16561,SSA-306710,< V3.X.16,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2019-6568,SSA-480230,< V3.2.16,named
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2019-10923,SSA-349422,< V3.2.17,named
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2019-10936,SSA-473245,< V3.2.17,named
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2019-13940,SSA-431678,< V3.X.17,named
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2019-18336,SSA-508982,< V3.X.17,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2019-19300,SSA-593272,all versions,named
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2020-15783,SSA-492828,all versions,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2020-15791,SSA-381684,all versions,family
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2022-25622,SSA-446448,< V3.2.19,named
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2022-30694,SSA-478960,< V3.2.19,named
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2024-23814,SSA-725549,all versions,named
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2025-40820,SSA-915282,all versions,named
+tia_s300_goOnline.pcapng,134.217.61.211,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7,CVE-2025-40833,SSA-392349,all versions,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2015-2177,SSA-987029,all versions,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2016-3949,SSA-818183,< V3.2.12,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2016-8672,SSA-603476,< V3.X.18,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2016-8673,SSA-603476,< V3.X.18,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2016-9158,SSA-731239,all versions (fix V3.X.14),family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2016-9159,SSA-731239,all versions,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2017-2680,SSA-293562,< V3.X.14,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2017-2681,SSA-293562,< V3.X.14,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2017-12741,SSA-346262,< V3.X.16,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2018-4843,SSA-592007,< V3.2.16,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2018-16561,SSA-306710,< V3.X.16,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2019-6568,SSA-480230,< V3.2.16,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2019-10923,SSA-349422,< V3.2.17,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2019-10936,SSA-473245,< V3.2.17,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2019-13940,SSA-431678,< V3.X.17,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2019-18336,SSA-508982,< V3.X.17,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2019-19300,SSA-593272,all versions,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2020-15783,SSA-492828,all versions,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2020-15791,SSA-381684,all versions,family (inferred)
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2022-25622,SSA-446448,< V3.2.19,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2022-30694,SSA-478960,< V3.2.19,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2024-23814,SSA-725549,all versions,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2025-40820,SSA-915282,all versions,named
+s7comm_reading_plc_status.pcap,192.168.1.40,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6,CVE-2025-40833,SSA-392349,all versions,named
+bacnet_test.pcap,10.1.1.165,JCI MS-NAE4510-2 5.1.0.4400,CVE-2021-27657,JCI-PSA-2021-05 / ICSA-21-159-01,through 9.0.6,"named (NxE45, MS-NAE451x-2x)"
+bacnet_test.pcap,10.1.1.165,JCI MS-NAE4510-2 5.1.0.4400,CVE-2019-7593,ICSA-19-227-01 / JCI-PSA-2019-06,prior to 9.0,family (NAE engines)
+bacnet_test.pcap,10.1.1.165,JCI MS-NAE4510-2 5.1.0.4400,CVE-2019-7594,ICSA-19-227-01 / JCI-PSA-2019-06,prior to 9.0,family (NAE engines)
