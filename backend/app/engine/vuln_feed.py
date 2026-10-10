@@ -30,6 +30,8 @@ try:
 except ImportError:
     HTTPX_AVAILABLE = False
 
+from app.engine.prioritisation import urgency_tier
+
 logger = logging.getLogger(__name__)
 
 
@@ -496,25 +498,14 @@ class VulnFeedEngine:
           monitor:    CVSS >= 4.0
           low_risk:   CVSS < 4.0 or physical access only
         """
-        # Act Now conditions
-        if adv.kev_listed:
-            return "act_now"
-        if adv.cvss_score >= 9.0 and adv.attack_vector in ("network", ""):
-            return "act_now"
-        if adv.epss_score > 0.10:
-            return "act_now"
-
-        # Plan Patch
-        if adv.cvss_score >= 7.0 and adv.patch_available:
-            return "plan_patch"
-        if adv.cvss_score >= 8.0:
-            return "plan_patch"
-
-        # Monitor
-        if adv.cvss_score >= 4.0:
-            return "monitor"
-
-        return "low_risk"
+        tier, _reason = urgency_tier(
+            adv.cvss_score,
+            adv.cvss_vector,
+            kev=adv.kev_listed,
+            epss=adv.epss_score,
+            fix_available=adv.patch_available,
+        )
+        return tier
 
     @staticmethod
     def _parse_cvss_vector(adv: Advisory):

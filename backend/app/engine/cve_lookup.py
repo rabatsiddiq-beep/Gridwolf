@@ -14,7 +14,8 @@ Correlation tiers (what the passive evidence supports):
   * Tier C  - nothing known.
 
 Matches are ranked by exploitation evidence first, then severity:
-known-exploited (KEV) > EPSS probability > CVSS base score.
+known-exploited (KEV) > EPSS probability > CVSS base score. Each match also gets an
+urgency tier from the Table 4.3 rules (see prioritisation.py).
 """
 
 from __future__ import annotations
@@ -25,6 +26,7 @@ import re
 from collections import defaultdict
 from typing import Optional
 
+from app.engine.prioritisation import TIERS, urgency_tier
 from app.engine.vuln_snapshot import load_snapshot
 
 try:
@@ -99,6 +101,9 @@ def version_affected(firmware: Optional[str], affected: dict) -> Optional[bool]:
     fw = _vtuple(firmware)
     if fw is None:
         return None
+    bounded = any(affected.get(k) for k in ("start_incl", "start_excl", "end_incl", "end_excl"))
+    if affected.get("version") == "-" and not bounded:
+        return None  # '-' means no version applies (e.g. a hardware CPE): cannot check
     exact = _vtuple(affected.get("version"))
     if exact is not None:
         return _cmp(fw, exact) == 0
@@ -154,6 +159,7 @@ class CVELookup:
             "matches": [],
             "vendor_cve_count": 0,
             "vendor_kev_count": 0,
+            "urgency_counts": {t: 0 for t in TIERS},
             "snapshot": self.meta.get("built_utc", "none"),
         }
         if nvd_vendor is None:
@@ -181,14 +187,32 @@ class CVELookup:
                     continue
                 best = {
                     "cpe_product": a["product"],
+                    "cpe_version": a.get("version"),
                     "version_check": "affected" if verdict else "unknown",
+                    "fixed_in": a.get("end_excl") or "",
                 }
                 if verdict:
                     break
             if best:
-                matches.append({**self._public(rec), "match": best})
+                tier, reason = urgency_tier(
+                    rec.get("cvss_score"),
+                    rec.get("cvss_vector"),
+                    kev=bool(rec.get("kev")),
+                    epss=rec.get("epss"),
+                    fix_available=bool(best["fixed_in"]),
+                )
+                matches.append(
+                    {
+                        **self._public(rec),
+                        "match": best,
+                        "urgency_tier": tier,
+                        "tier_reason": reason,
+                    }
+                )
         matches.sort(key=rank_key)
         result["matches"] = matches
+        for m in matches:
+            result["urgency_counts"][m["urgency_tier"]] += 1
         return result
 
     def match_device(
