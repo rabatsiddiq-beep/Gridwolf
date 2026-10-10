@@ -1,9 +1,9 @@
 {
-  "built_utc": "2026-10-03T12:15:27Z",
+  "built_utc": "2026-10-10T08:43:11Z",
   "sources": {
     "nvd": "https://services.nvd.nist.gov/rest/json/cves/2.0",
     "kev": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
-    "kev_catalog_version": "2026.10.02",
+    "kev_catalog_version": "2026.10.08",
     "epss": "https://api.first.org/data/v1/epss"
   },
   "vendors": {
@@ -71,5 +71,5 @@
   "cve_count": 1679,
   "kev_count": 26,
   "epss_count": 1679,
-  "sha256": "ea798476e90c6a31168bc14024b268e959ef180f0a039539b799bf7afe8765c1"
+  "sha256": "68441bacb34e6da4cf1319928bfa210c114ef81d4f90456fe9590bac81298c24"
 }
