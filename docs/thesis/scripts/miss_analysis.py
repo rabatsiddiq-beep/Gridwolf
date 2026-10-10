@@ -51,7 +51,8 @@ DEVICES = {  # ip -> (vendor, product, firmware), as identified by the workflow
     "10.1.1.165": ("JCI", "MS-NAE4510-2", "5.1.0.4400"),
 }
 # Normalised model core and family stems, used only to explain product_name misses
-MODEL_CORE = {"134.217.61.211": "3152pn", "192.168.1.40": "1518", "10.1.1.165": "nae45"}
+# "im1518", not "1518": the bare digits also occur in S7-1500 "cpu_1518" product names
+MODEL_CORE = {"134.217.61.211": "3152pn", "192.168.1.40": "im1518", "10.1.1.165": "nae45"}
 FAMILY = {
     "134.217.61.211": ("s7300",),
     "192.168.1.40": ("s7300", "et200s"),

@@ -42,6 +42,7 @@ GUIDE = (
     "INSERT:",
     "INTERPRETATION TO WRITE",
     "TO COMPLETE",
+    "REFLECTION TO WRITE",
 )
 
 results: list[tuple[str, str]] = []
@@ -203,13 +204,27 @@ def expected_claims() -> tuple[list[tuple[str, list[list[str]]]], set[str]]:
     if miss.exists():
         mr = rows(miss)
         c = Counter((r["reason"], r.get("detail", "")) for r in mr)
-        claims.append(("missed reference CVEs", [[str(len(mr))]]))
+        fam = c[("product_name", "family_name")]
+        near = c[("product_name", "near_name")]
         claims.append(
-            ("misses: family name", [[str(c[("product_name", "family_name")])]])
+            ("missed reference CVEs", [[f"Total\n{len(mr)}", f"{len(mr)} misses"]])
         )
-        claims.append(("misses: near name", [[str(c[("product_name", "near_name")])]]))
+        claims.append(
+            (
+                "misses: family name",
+                [[f"product family ({fam})", f"product family\n{fam}"]],
+            )
+        )
+        claims.append(
+            ("misses: near name", [[f"differently ({near})", f"differently\n{near}"]])
+        )
         nis = sum(v for (reason, _), v in c.items() if reason == "not_in_snapshot")
-        claims.append(("misses: not in snapshot", [[str(nis)]]))
+        claims.append(
+            (
+                "misses: not in snapshot",
+                [[f"other {nis}", f"{nis} are absent", "other nine"]],
+            )
+        )
 
     rob = RES / "robustness" / "robustness.csv"
     if rob.exists():
