@@ -1,0 +1,6 @@
+Recorded: 2026-10-10T15:34:53Z
+Description:	Ubuntu 24.04.5 LTS
+Kernel: 6.18.40.1-microsoft-standard-WSL2
+Python 3.12.3
+scapy Version: 2.8.0
+commit ef418f49d1bf3e9f95e5a74afa162db2c429f315
