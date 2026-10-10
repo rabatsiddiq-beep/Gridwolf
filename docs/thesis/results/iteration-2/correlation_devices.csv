@@ -1,0 +1,84 @@
+capture,set,ip,vendor,product,firmware,identity_tier,nvd_vendor,matches,vendor_cve_count,vendor_kev_count,act_now,plan_patch,monitor,low_risk
+090813_diverse.pcap,independent,10.0.0.10,,,,C,,0,0,0,0,0,0,0
+bacnet_test.pcap,independent,10.1.1.165,JCI,MS-NAE4510-2,5.1.0.4400,A,johnsoncontrols,0,28,0,0,0,0,0
+bacnet_test.pcap,independent,10.1.1.167,,,,C,,0,0,0,0,0,0,0
+cip_unclean.pcap,independent,192.168.0.21,,,,C,,0,0,0,0,0,0,0
+cip_unclean.pcap,independent,192.168.0.30,Rockwell Automation,,,B,rockwellautomation,0,135,1,0,0,0,0
+cip_unclean.pcap,independent,192.168.0.47,,,,C,,0,0,0,0,0,0,0
+cip_unclean.pcap,independent,192.168.0.65,,,,C,,0,0,0,0,0,0,0
+EthernetIP-CIP.pcap,subset,141.81.0.10,,,,C,,0,0,0,0,0,0,0
+EthernetIP-CIP.pcap,subset,141.81.0.23,Rockwell / Allen-Bradley,,,B,rockwellautomation,0,135,1,0,0,0,0
+EthernetIP-CIP.pcap,subset,141.81.0.43,Rockwell / Allen-Bradley,,,B,rockwellautomation,0,135,1,0,0,0,0
+EthernetIP-CIP.pcap,subset,141.81.0.63,Rockwell / Allen-Bradley,,,B,rockwellautomation,0,135,1,0,0,0,0
+EthernetIP-CIP.pcap,subset,141.81.0.83,Rockwell / Allen-Bradley,,,B,rockwellautomation,0,135,1,0,0,0,0
+full_exchange.pcap,independent,192.168.60.1,,,,C,,0,0,0,0,0,0,0
+full_exchange.pcap,independent,192.168.60.130,,,,C,,0,0,0,0,0,0,0
+modbus_test_data_part1.pcap,independent,10.0.0.3,,,,C,,0,0,0,0,0,0,0
+modbus_test_data_part1.pcap,independent,10.0.0.57,,,,C,,0,0,0,0,0,0,0
+modbus_test_data_part1.pcap,independent,10.0.0.8,,,,C,,0,0,0,0,0,0,0
+modbus_test_data_part1.pcap,independent,10.0.0.9,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.10,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.104,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.143,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.144,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.163,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.164,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.24,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.26,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.44,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.46,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.64,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.66,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.84,,,,C,,0,0,0,0,0,0,0
+ModbusTCP.pcap,subset,141.81.0.86,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.10,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.104,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.11,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.111,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.130,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.14,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.143,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.144,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.146,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.151,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.163,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.164,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.166,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.181,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.182,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.183,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.184,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.187,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.188,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.23,Rockwell / Allen-Bradley,,,B,rockwellautomation,0,135,1,0,0,0,0
+Plant1.pcap,independent,141.81.0.236,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.237,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.24,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.26,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.31,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.42,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.43,Rockwell / Allen-Bradley,,,B,rockwellautomation,0,135,1,0,0,0,0
+Plant1.pcap,independent,141.81.0.44,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.46,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.47,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.49,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.50,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.51,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.63,Rockwell / Allen-Bradley,,,B,rockwellautomation,0,135,1,0,0,0,0
+Plant1.pcap,independent,141.81.0.64,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.66,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.71,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,141.81.0.83,Rockwell / Allen-Bradley,,,B,rockwellautomation,0,135,1,0,0,0,0
+Plant1.pcap,independent,141.81.0.84,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.86,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.9,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,141.81.0.91,Siemens,,,B,siemens,0,829,25,0,0,0,0
+Plant1.pcap,independent,142.81.0.10,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,142.81.0.180,,,,C,,0,0,0,0,0,0,0
+Plant1.pcap,independent,192.168.113.4,,,,C,,0,0,0,0,0,0,0
+s7comm_reading_plc_status.pcap,independent,192.168.1.10,,,,C,,0,0,0,0,0,0,0
+s7comm_reading_plc_status.pcap,independent,192.168.1.40,Siemens AG,IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0),V3.2.6,A,siemens,1,829,25,0,0,1,0
+tia_s300_goOnline.pcapng,independent,134.217.61.131,,,,C,,0,0,0,0,0,0,0
+tia_s300_goOnline.pcapng,independent,134.217.61.211,Siemens AG,CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0),V3.2.7,A,siemens,5,829,25,0,0,5,0
+wincc_s400_production.pcapng,independent,194.250.63.170,Siemens,,,B,siemens,0,829,25,0,0,0,0
+wincc_s400_production.pcapng,independent,194.250.63.239,Siemens,,,B,siemens,0,829,25,0,0,0,0

@@ -1,0 +1,25 @@
+{
+  "capture": "090813_diverse.pcap",
+  "engine_commit": "46db8fd",
+  "packet_count": 173,
+  "device_count": 1,
+  "finding_count": 46,
+  "devices": [
+    {
+      "ip": "10.0.0.10",
+      "mac": "02:00:4c:4f:4f:50",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "RTU",
+      "role": "both",
+      "purdue_level": "L1",
+      "protocols": [
+        "iec104"
+      ],
+      "open_ports": [
+        2404
+      ]
+    }
+  ]
+}

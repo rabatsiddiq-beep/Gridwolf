@@ -1,0 +1,691 @@
+{
+  "capture": "Plant1.pcap",
+  "engine_commit": "46db8fd",
+  "packet_count": 55800,
+  "device_count": 45,
+  "finding_count": 4027,
+  "devices": [
+    {
+      "ip": "141.81.0.10",
+      "mac": "78:e7:d1:e0:02:5e",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": "client",
+      "purdue_level": "L2",
+      "protocols": [
+        "enip",
+        "modbus",
+        "s7comm",
+        "dsatp"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.104",
+      "mac": "00:03:1d:0b:97:97",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.11",
+      "mac": "d4:85:64:6c:28:f0",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [
+        "enip",
+        "modbus"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.111",
+      "mac": "00:0e:8c:fc:d7:f5",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.130",
+      "mac": "00:0e:8c:fc:d7:f9",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.14",
+      "mac": "00:0e:8c:ed:0e:54",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.143",
+      "mac": "00:04:17:02:3c:7f",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.144",
+      "mac": "00:03:1d:0a:dc:18",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.146",
+      "mac": "00:1b:1b:35:84:10",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.151",
+      "mac": "00:1b:1b:1b:a4:97",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.163",
+      "mac": "00:04:17:02:3d:1b",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.164",
+      "mac": "00:03:1d:0a:dc:14",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.166",
+      "mac": "00:1b:1b:35:84:07",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.181",
+      "mac": "00:13:95:07:81:96",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": null,
+      "purdue_level": "L2",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.182",
+      "mac": "00:13:95:07:81:a1",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": null,
+      "purdue_level": "L2",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.183",
+      "mac": "00:13:95:08:cf:58",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": null,
+      "purdue_level": "L2",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.184",
+      "mac": "00:13:95:08:cd:d2",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": null,
+      "purdue_level": "L2",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.187",
+      "mac": "e0:69:95:33:62:51",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": null,
+      "purdue_level": "L2",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.188",
+      "mac": "2c:41:38:ad:ec:35",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": null,
+      "purdue_level": "L2",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.23",
+      "mac": "00:00:bc:5f:49:51",
+      "vendor": "Rockwell / Allen-Bradley",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    },
+    {
+      "ip": "141.81.0.236",
+      "mac": "00:0e:8c:f8:27:48",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.237",
+      "mac": "00:0e:8c:fc:d9:a0",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.24",
+      "mac": "00:03:1d:08:5b:00",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.26",
+      "mac": "00:04:17:02:23:88",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.31",
+      "mac": "00:0e:8c:f7:ad:97",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.42",
+      "mac": "00:06:77:05:c0:ad",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "OT_DEVICE",
+      "role": null,
+      "purdue_level": "L1",
+      "protocols": [
+        "dsatp"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.43",
+      "mac": "00:00:bc:5f:48:fa",
+      "vendor": "Rockwell / Allen-Bradley",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    },
+    {
+      "ip": "141.81.0.44",
+      "mac": "00:03:1d:08:4f:e4",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.46",
+      "mac": "00:04:17:02:31:3b",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.47",
+      "mac": "00:06:77:05:cc:fe",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "OT_DEVICE",
+      "role": null,
+      "purdue_level": "L1",
+      "protocols": [
+        "dsatp"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.49",
+      "mac": "00:07:d2:01:06:58",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.50",
+      "mac": "00:06:77:15:72:9e",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "OT_DEVICE",
+      "role": null,
+      "purdue_level": "L1",
+      "protocols": [
+        "dsatp"
+      ],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.51",
+      "mac": "00:0e:8c:f7:ac:da",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.63",
+      "mac": "00:00:bc:c7:ce:56",
+      "vendor": "Rockwell / Allen-Bradley",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    },
+    {
+      "ip": "141.81.0.64",
+      "mac": "00:03:1d:0a:01:cb",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.66",
+      "mac": "00:04:17:02:36:35",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.71",
+      "mac": "00:0e:8c:f9:f5:0c",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "141.81.0.83",
+      "mac": "00:00:bc:d1:60:da",
+      "vendor": "Rockwell / Allen-Bradley",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "enip"
+      ],
+      "open_ports": [
+        44818
+      ]
+    },
+    {
+      "ip": "141.81.0.84",
+      "mac": "00:03:1d:0b:15:c2",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.86",
+      "mac": "00:04:17:02:58:b7",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "modbus"
+      ],
+      "open_ports": [
+        502
+      ]
+    },
+    {
+      "ip": "141.81.0.9",
+      "mac": "00:50:56:94:71:5e",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "141.81.0.91",
+      "mac": "00:1b:1b:1c:cd:47",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "142.81.0.10",
+      "mac": "78:e7:d1:e0:02:60",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "142.81.0.180",
+      "mac": "9c:8e:99:c9:20:f9",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    },
+    {
+      "ip": "192.168.113.4",
+      "mac": "00:90:7f:41:fe:c0",
+      "vendor": null,
+      "product": null,
+      "firmware": null,
+      "device_type": "UNKNOWN",
+      "role": null,
+      "purdue_level": "UNKNOWN",
+      "protocols": [],
+      "open_ports": []
+    }
+  ]
+}

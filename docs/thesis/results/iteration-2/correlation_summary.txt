@@ -1,0 +1,13 @@
+Snapshot: C:\thesisgrid\Gridwolf\backend\app\vulndata\vuln_snapshot.json.gz
+  built 2026-10-10T08:43:11Z, 1679 CVE records
+  sha256 68441bacb34e6da4cf1319928bfa210c114ef81d4f90456fe9590bac81298c24 OK
+Independent set: 64 devices
+  identity tier: A 3, A- 0, B 19, C 42
+  devices with at least one match: 2
+Matches (tiers A and A-): 6
+  version check: affected 3, unknown 3
+  urgency: act_now 0, plan_patch 0, monitor 6, low_risk 0
+  KEV-listed: 0
+  bacnet_test.pcap 10.1.1.165 MS-NAE4510-2 5.1.0.4400: 0 matches
+  s7comm_reading_plc_status.pcap 192.168.1.40 IM151-8 PN/DP CPU (6ES7 151-8AB01-0AB0) V3.2.6: 1 matches
+  tia_s300_goOnline.pcapng 134.217.61.211 CPU 315-2 PN/DP (6ES7 315-2EH14-0AB0) V3.2.7: 5 matches
