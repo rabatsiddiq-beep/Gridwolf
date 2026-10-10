@@ -1,0 +1,40 @@
+{
+  "capture": "wincc_s400_production.pcapng",
+  "engine_commit": "ef418f4",
+  "packet_count": 1658,
+  "packet_errors": 0,
+  "device_count": 2,
+  "finding_count": 27,
+  "devices": [
+    {
+      "ip": "194.250.63.170",
+      "mac": "00:1b:1b:01:95:2f",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "PLC",
+      "role": "server",
+      "purdue_level": "L1",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": [
+        102
+      ]
+    },
+    {
+      "ip": "194.250.63.239",
+      "mac": "00:0e:8c:ec:72:b6",
+      "vendor": "Siemens",
+      "product": null,
+      "firmware": null,
+      "device_type": "HMI",
+      "role": "client",
+      "purdue_level": "L2",
+      "protocols": [
+        "s7comm"
+      ],
+      "open_ports": []
+    }
+  ]
+}
