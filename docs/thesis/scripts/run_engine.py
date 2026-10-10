@@ -84,13 +84,12 @@ def main() -> None:
             "capture": path.name,
             "engine_commit": commit,
             "packet_count": res["packet_count"],
+            "packet_errors": res.get("packet_errors", 0),
             "device_count": len(devices),
             "finding_count": len(res["findings"]),
             "devices": devices,
         }
-        (out / f"{path.name}.json").write_text(
-            json.dumps(record, indent=2), encoding="utf-8"
-        )
+        (out / f"{path.name}.json").write_text(json.dumps(record, indent=2), encoding="utf-8")
         print(f"{path.name:40s} {len(devices):3d} devices  (engine {commit})")
 
 

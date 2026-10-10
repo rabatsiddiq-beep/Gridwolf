@@ -131,3 +131,40 @@ def test_bacnet_same_port_uses_message_direction(tmp_path):
 )
 def test_is_device_address(ip, expected):
     assert is_device_address(ip) is expected
+
+
+def test_one_failing_packet_is_skipped_not_fatal(tmp_path, monkeypatch):
+    """A packet whose analysis raises is counted and skipped; the rest is analysed."""
+    from scapy.all import IP, TCP, Ether, Raw, wrpcap
+
+    from app.engine import pcap_processor as pp
+
+    real = pp.parse_modbus
+    calls = {"n": 0}
+
+    def flaky(payload, src, dst, ts):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise ValueError("boom")
+        return real(payload, src, dst, ts)
+
+    monkeypatch.setattr(pp, "parse_modbus", flaky)
+    monkeypatch.setattr(
+        pp.PcapProcessor,
+        "_dissect_protocol",
+        lambda self, proto, s, d, sp, dp, pl, ts: flaky(pl, s, d, ts),
+    )
+    req = b"\x00\x01\x00\x00\x00\x06\x01\x03\x00\x00\x00\x01"
+    pkts = [
+        Ether()
+        / IP(src="10.0.0.1", dst="10.0.0.2")
+        / TCP(sport=40000, dport=502, flags="PA")
+        / Raw(req)
+        for _ in range(3)
+    ]
+    path = tmp_path / "t.pcap"
+    wrpcap(str(path), pkts)
+    res = pp.PcapProcessor().process_file(str(path))
+    assert res["packet_count"] == 3
+    assert res["packet_errors"] == 1
+    assert {d["ip_address"] for d in res["devices"]} == {"10.0.0.1"}

@@ -107,6 +107,7 @@ class PcapProcessor:
         self.end_time: Optional[datetime] = None
         self.protocol_summary: dict[str, int] = defaultdict(int)
         self._szl = S7SzlCollector()
+        self.packet_errors = 0  # packets whose analysis raised an error (skipped)
 
     def process_file(self, filepath: str) -> dict:
         """Process a PCAP file and return analysis results."""
@@ -163,6 +164,7 @@ class PcapProcessor:
             "protocol_events": self.protocol_events,
             "findings": self.findings,
             "protocol_summary": dict(self.protocol_summary),
+            "packet_errors": self.packet_errors,
         }
 
     def _read_packets(self, filepath: str, file_size: int, is_pcapng: bool):
@@ -193,19 +195,20 @@ class PcapProcessor:
             self.end_time = None
             self.protocol_summary.clear()
             self._szl = S7SzlCollector()
+            self.packet_errors = 0
 
             try:
                 if reader_factory:
                     logger.info(f"Trying {reader_name}...")
                     reader = reader_factory()
                     for pkt in reader:
-                        self._process_packet(pkt)
+                        self._safe_process(pkt)
                     reader.close()
                 else:
                     logger.info("Trying rdpcap (loads entire file into memory)...")
                     packets = rdpcap(filepath)
                     for pkt in packets:
-                        self._process_packet(pkt)
+                        self._safe_process(pkt)
 
                 logger.info(f"{reader_name} succeeded: {self.packet_count} packets")
                 return  # success
@@ -215,6 +218,15 @@ class PcapProcessor:
                 continue
 
         raise RuntimeError(f"Could not read capture file with any parser. Last error: {last_error}")
+
+    def _safe_process(self, pkt) -> None:
+        """Analyse one packet; a packet that raises is counted and skipped, so one
+        malformed packet cannot stop the analysis of the rest of the capture."""
+        try:
+            self._process_packet(pkt)
+        except Exception as e:  # noqa: BLE001 - robustness: never abort the capture
+            self.packet_errors += 1
+            logger.debug(f"Packet {self.packet_count} skipped: {e}")
 
     def _process_packet(self, pkt):
         """Process a single packet — Stage 2 (Dissect) + Stage 3 (Topology)."""

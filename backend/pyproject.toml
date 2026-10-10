@@ -26,6 +26,7 @@ dependencies = [
 postgres = ["asyncpg>=0.30.0"]
 pdf = ["weasyprint>=62.0"]
 full = ["asyncpg>=0.30.0", "weasyprint>=62.0", "redis>=5.0.0", "celery>=5.4.0"]
+thesis = ["matplotlib>=3.8"]  # figures for the dissertation (make_figures.py)
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.24",

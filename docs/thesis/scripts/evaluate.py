@@ -12,6 +12,8 @@ Metrics (RQ1):
   * Identity (RQ1/RQ2): vendor, product and firmware compared with the codebook
     R4/R5 labels for devices whose ground truth has them; a product reported for a
     device whose ground truth has none is counted as a false identity
+  * Every proportion is also given with its 95% Wilson score interval (Brown, Cai
+    and DasGupta, 2001), in metrics.csv and per protocol in metrics_by_protocol.csv
 
 Aggregates use only the independent captures (codebook R8: the Plant1 subsets
 ModbusTCP.pcap and EthernetIP-CIP.pcap are reported but not pooled).
@@ -87,6 +89,42 @@ def vendor_matches(pred, truth: str) -> bool:
     return bool(words) and words[0] in re.findall(r"[a-z0-9]+", truth.lower())
 
 
+# Capture -> protocol group for the per-protocol tables (Tables 5.2 and 5.3)
+PROTOCOL_OF = {
+    "ModbusTCP.pcap": "Modbus TCP",
+    "modbus_test_data_part1.pcap": "Modbus TCP",
+    "tia_s300_goOnline.pcapng": "S7comm",
+    "s7comm_reading_plc_status.pcap": "S7comm",
+    "wincc_s400_production.pcapng": "S7comm",
+    "EthernetIP-CIP.pcap": "EtherNet/IP and CIP",
+    "cip_unclean.pcap": "EtherNet/IP and CIP",
+    "full_exchange.pcap": "DNP3",
+    "090813_diverse.pcap": "IEC 60870-5-104",
+    "bacnet_test.pcap": "BACnet/IP",
+    "Plant1.pcap": "Combined (Plant1.pcap)",
+    "PROFINET-RT.pcap": "PROFINET (Layer-2 control)",
+}
+PROTOCOL_ORDER = list(dict.fromkeys(PROTOCOL_OF.values()))
+
+
+def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
+    """95% Wilson score interval for k successes in n trials."""
+    if n == 0:
+        return 0.0, 0.0
+    p = k / n
+    d = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / d
+    half = z * (p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5 / d
+    return max(0.0, centre - half), min(1.0, centre + half)
+
+
+def ci(k: int, n: int) -> str:
+    if n == 0:
+        return "-"
+    lo, hi = wilson(k, n)
+    return f"{lo:.3f}-{hi:.3f}"
+
+
 def prf(tp: int, fp: int, fn: int):
     p = tp / (tp + fp) if tp + fp else 0.0
     r = tp / (tp + fn) if tp + fn else 0.0
@@ -105,6 +143,7 @@ def main() -> None:
 
     l2 = l2_counts()
     rows, details = [], []
+    per_cap: dict[str, dict] = {}
     agg = dict(tp=0, fp=0, fn=0, l2=0, role_ok=0, role_n=0, cls_ok=0, cls_n=0)
     for k in ("ven_ok", "ven_n", "prod_ok", "prod_n", "fw_ok", "fw_n", "prod_false"):
         agg[k] = 0
@@ -208,6 +247,11 @@ def main() -> None:
                 prod_false,
             ]
         )
+        per_cap[cap] = dict(
+            tp=tp, fp=len(fp_ips), fn=len(fn_ips), l2=n_l2,
+            role_ok=role_ok, role_n=len(role_rows), cls_ok=cls_ok, cls_n=len(cls_rows),
+            prod_ok=prod["ok"], prod_n=prod["n"], fw_ok=fw["ok"], fw_n=fw["n"],
+        )  # fmt: skip
         if cap not in SUBSETS:
             agg["tp"] += tp
             agg["fp"] += len(fp_ips)
@@ -276,6 +320,23 @@ def main() -> None:
         "firmware_correct",
         "false_product",
     ]
+
+    # 95% Wilson intervals: precision, recall, recall incl. Layer 2, role, class
+    def ci_cols(st: dict) -> list[str]:
+        return [
+            ci(st["tp"], st["tp"] + st["fp"]),
+            ci(st["tp"], st["tp"] + st["fn"]),
+            ci(st["tp"], st["tp"] + st["fn"] + st["l2"]),
+            ci(st["role_ok"], st["role_n"]),
+            ci(st["cls_ok"], st["cls_n"]),
+        ]
+
+    for row in rows[:-1]:
+        row.extend(ci_cols(per_cap[row[0]]))
+    rows[-1].extend(ci_cols(agg))
+    header += ["precision_ci", "recall_ci", "recall_incl_l2_ci", "role_ci", "class_ci"]
+    write_by_protocol(res_dir, per_cap, agg, details)
+
     with open(res_dir / "metrics.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         w.writerow(header)
@@ -290,6 +351,64 @@ def main() -> None:
     for row in rows:
         print("  ".join(str(c)[:w].ljust(w) for c, w in zip(row, widths)))
     print(f"\nWritten: {res_dir / 'metrics.csv'} and {res_dir / 'errors.csv'}")
+
+
+def write_by_protocol(res_dir: Path, per_cap: dict, agg: dict, details: list) -> None:
+    """Per-protocol discovery, role, class and identity figures with Wilson intervals."""
+    keys = ("tp", "fp", "fn", "l2", "role_ok", "role_n", "cls_ok", "cls_n", "prod_ok", "prod_n")
+    out = []
+    for proto in PROTOCOL_ORDER:
+        caps = [c for c, p in PROTOCOL_OF.items() if p == proto and c in per_cap]
+        if not caps:
+            continue
+        st = {k: sum(per_cap[c][k] for c in caps) for k in keys}
+        errors = [
+            f"{d[3]} as {d[4]}" for d in details if d[2] == "class" and d[0] in caps
+        ]  # fmt: skip
+        common = min(set(errors), key=lambda e: (-errors.count(e), e)) if errors else "none"
+        out.append(by_protocol_row(proto, caps, st, common, errors.count(common)))
+    total = by_protocol_row("Overall (independent set)", [], agg, "", 0)
+    out.append(total)
+    head = ["protocol", "captures", "TP", "FP", "FN", "precision", "precision_ci", "recall",
+            "recall_ci", "F1", "role_correct", "role_accuracy", "role_ci", "class_correct",
+            "class_accuracy", "class_ci", "product_correct", "most_frequent_class_error"]  # fmt: skip
+    with open(res_dir / "metrics_by_protocol.csv", "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(head)
+        w.writerows(out)
+    print("\nPer protocol (95% Wilson intervals):")
+    for r in out:
+        print(
+            f"  {r[0][:28]:28s} P {r[5]} ({r[6]})  R {r[7]} ({r[8]})  "
+            f"role {r[10]} ({r[12]})  class {r[13]} ({r[15]})"
+        )
+
+
+def by_protocol_row(proto: str, caps: list, st: dict, common: str, n_common: int) -> list:
+    p, r_, f1 = prf(st["tp"], st["fp"], st["fn"])
+    role = st["role_ok"] / st["role_n"] if st["role_n"] else None
+    cls = st["cls_ok"] / st["cls_n"] if st["cls_n"] else None
+    note = f"{common} ({n_common})" if n_common else (common or "")
+    return [
+        proto,
+        len(caps) if caps else "",
+        st["tp"],
+        st["fp"],
+        st["fn"],
+        f"{p:.3f}",
+        ci(st["tp"], st["tp"] + st["fp"]),
+        f"{r_:.3f}",
+        ci(st["tp"], st["tp"] + st["fn"]),
+        f"{f1:.3f}",
+        f"{st['role_ok']}/{st['role_n']}",
+        f"{role:.3f}" if role is not None else "-",
+        ci(st["role_ok"], st["role_n"]),
+        f"{st['cls_ok']}/{st['cls_n']}",
+        f"{cls:.3f}" if cls is not None else "-",
+        ci(st["cls_ok"], st["cls_n"]),
+        f"{st.get('prod_ok', 0)}/{st.get('prod_n', 0)}",
+        note,
+    ]
 
 
 if __name__ == "__main__":
